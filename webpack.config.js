@@ -12,6 +12,12 @@ module.exports = (env, argv) => {
 
 	return {
 		context: path.resolve(__dirname, 'src'),
+		devServer: {
+			hot: true,
+			open: true,
+			port: '3000',
+			watchFiles: './'
+		},
 		devtool: isDev ? 'source-map' : false,
 		entry: {
 			main: [

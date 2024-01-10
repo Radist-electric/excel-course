@@ -1,5 +1,6 @@
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -7,8 +8,31 @@ module.exports = (env, argv) => {
 	const isProd = argv.mode === 'production';
 	const isDev = !isProd;
 
-	const filename = ext => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`
+	const filename = (ext) => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
+	const plugins = () => {
+		const base = [
+			new CopyPlugin({
+				patterns: [
+					{
+						from: path.resolve(__dirname, 'src', 'favicon.ico'),
+						to: path.resolve(__dirname, 'build')
+					}
+				]
+			}),
+			new HtmlWebpackPlugin({
+				template: './index.html'
+			}),
+			new MiniCssExtractPlugin({
+				filename: filename('css')
+			})
+		];
 
+		if (isDev) {
+			base.push(new ESLintPlugin());
+		}
+
+		return base;
+	};
 
 	return {
 		context: path.resolve(__dirname, 'src'),
@@ -24,34 +48,19 @@ module.exports = (env, argv) => {
 				'core-js/stable',
 				'regenerator-runtime/runtime',
 				'./index.js'
-			],
+			]
 		},
 		output: {
 			path: path.resolve(__dirname, 'build'),
 			filename: filename('js'),
 			clean: true
 		},
-		plugins: [
-			new CopyPlugin({
-				patterns: [
-					{ 
-						from: path.resolve(__dirname, 'src', 'favicon.ico'), 
-						to: path.resolve(__dirname, 'build') 
-					},
-				],
-			}),
-			new HtmlWebpackPlugin({
-				template: './index.html'
-			}),
-			new MiniCssExtractPlugin({
-				filename: filename('css')
-			})
-		],
+		plugins: plugins(),
 		resolve: {
 			extensions: ['.js'],
 			alias: {
 				'@': path.resolve(__dirname, 'src'),
-				'@core': path.resolve(__dirname, 'src', 'core'),
+				'@core': path.resolve(__dirname, 'src', 'core')
 			}
 		},
 		module: {
@@ -61,8 +70,8 @@ module.exports = (env, argv) => {
 					use: [
 						MiniCssExtractPlugin.loader,
 						'css-loader',
-						'sass-loader',
-					],
+						'sass-loader'
+					]
 				},
 				{
 					test: /\.m?js$/,
@@ -74,7 +83,7 @@ module.exports = (env, argv) => {
 						}
 					}
 				}
-			],
+			]
 		}
-	}
-}
+	};
+};

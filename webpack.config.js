@@ -1,4 +1,3 @@
-const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -23,10 +22,10 @@ module.exports = (env, argv) => {
 		},
 		output: {
 			path: path.resolve(__dirname, 'build'),
-			filename: filename('js')
+			filename: filename('js'),
+			clean: true
 		},
 		plugins: [
-			new CleanWebpackPlugin(),
 			new CopyPlugin({
 				patterns: [
 					{ 

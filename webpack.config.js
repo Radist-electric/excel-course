@@ -74,6 +74,16 @@ module.exports = (env, argv) => {
 					]
 				},
 				{
+					test: /\.(ttf|woff|woff2|eot|svg)$/,
+					type: 'asset/resource',
+					include: [
+						path.resolve(__dirname, 'src/fonts')
+					],
+					generator: {
+						filename: 'fonts/[hash][ext][query]'
+					}
+				},
+				{
 					test: /\.m?js$/,
 					exclude: /node_modules/,
 					use: {

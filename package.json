@@ -17,6 +17,9 @@
   "keywords": [],
   "author": "araimov",
   "browserslist": "> 0.25%, not dead",
+  "engines": {
+    "node": "20.10.0"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Radist-electric/excel-course/issues"

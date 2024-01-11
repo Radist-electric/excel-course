@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "core-js": "^3.35.0",
+    "normalize.css": "^8.0.1",
     "regenerator-runtime": "^0.14.1"
   }
 }

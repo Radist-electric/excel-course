@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
 	const isProd = argv.mode === 'production';
 	const isDev = !isProd;
 
-	const filename = (ext) => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
+	const filename = ext => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
 	const plugins = () => {
 		const base = [
 			new CopyPlugin({
@@ -47,7 +47,7 @@ module.exports = (env, argv) => {
 			main: [
 				'core-js/stable',
 				'regenerator-runtime/runtime',
-				'./index.js'
+				'./index.ts'
 			]
 		},
 		output: {
@@ -57,10 +57,15 @@ module.exports = (env, argv) => {
 		},
 		plugins: plugins(),
 		resolve: {
-			extensions: ['.js'],
+			extensions: ['.js', '.ts'],
 			alias: {
-				'@': path.resolve(__dirname, 'src'),
-				'@core': path.resolve(__dirname, 'src', 'core')
+				'components': path.resolve(__dirname, 'src', 'components'),
+				'core': path.resolve(__dirname, 'src', 'core'),
+				'data': path.resolve(__dirname, 'src', 'data'),
+				'helpers': path.resolve(__dirname, 'src', 'helpers'),
+				'scss': path.resolve(__dirname, 'src', 'scss'),
+				'types': path.resolve(__dirname, 'src', 'types'),
+				'utils': path.resolve(__dirname, 'src', 'utils')
 			}
 		},
 		module: {
@@ -84,12 +89,15 @@ module.exports = (env, argv) => {
 					}
 				},
 				{
-					test: /\.m?js$/,
+					test: /\.ts$/,
 					exclude: /node_modules/,
 					use: {
 						loader: 'babel-loader',
 						options: {
-							presets: ['@babel/preset-env']
+							presets: [
+								'@babel/preset-env',
+								'@babel/preset-typescript'
+							]
 						}
 					}
 				}

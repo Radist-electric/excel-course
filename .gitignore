@@ -1,2 +1,10 @@
-build
+# IDE
+.idea
+.vscode
+
+# Node.js
 node_modules
+
+# builds
+build
+*.zip

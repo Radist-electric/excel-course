@@ -5,14 +5,21 @@ module.exports = {
 		es6: true
 	},
 	extends: ['eslint:recommended', 'google'],
-	parser: '@babel/eslint-parser',
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		babelOptions: {
 			configFile: './babel.config.json'
 		}
 	},
+	plugins: [
+		'@typescript-eslint'
+	],
 	rules: {
-		'comma-dangle': ['error', 'never'],
+		'arrow-parens': ['error', 'as-needed'],
+		'brace-style': ['error', '1tbs'],
+		'comma-dangle': ['error', 'only-multiline'],
+		'curly': ['error', 'all'],
+
 		'indent': [
 			'error',
 			'tab',
@@ -30,9 +37,24 @@ module.exports = {
 			'ignoreRegExpLiterals': true,
 			'ignorePattern': '^import [^,]+ from |^export'
 		}],
-
+		'multiline-ternary': ['error', 'always-multiline'],
+		'no-extend-native': ['error', {'exceptions': ['String']}],
+		'no-param-reassign': 'error',
 		'no-tabs': 'off',
+		'object-curly-spacing': ['error', 'never'],
+		'operator-linebreak': ['error', 'before'],
+		'quote-props': ['error', 'consistent'],
+
 		'require-jsdoc': 'off',
-		'semi': ['error', 'always']
+		'semi': ['error', 'always'],
+		'@typescript-eslint/no-unused-vars': 'error',
+		'@typescript-eslint/comma-dangle': ['error'],
+		'@typescript-eslint/indent': [
+			'error',
+			'tab',
+			{
+				'SwitchCase': 1
+			}
+		]
 	}
 };

@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": "src",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"paths": {
+			"@": [""],
+			"'@core": ["core"]
+		},
+		"outDir": "./build",
+		"skipLibCheck": true,
+		"target": "ES5",
+	},
+	"exclude": ["node_modules", "build"],
+	"include": ["src/**/*"]
+}

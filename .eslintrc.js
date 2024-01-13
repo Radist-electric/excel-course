@@ -12,7 +12,10 @@ module.exports = {
 		}
 	},
 	rules: {
-		'comma-dangle': ['error', 'never'],
+		'brace-style': ['error', '1tbs'],
+		'comma-dangle': ['error', 'only-multiline'],
+		'curly': ['error', 'all'],
+
 		'indent': [
 			'error',
 			'tab',
@@ -30,8 +33,14 @@ module.exports = {
 			'ignoreRegExpLiterals': true,
 			'ignorePattern': '^import [^,]+ from |^export'
 		}],
-
+		'multiline-ternary': ['error', 'always-multiline'],
+		'no-extend-native': ['error', {'exceptions': ['String']}],
+		'no-param-reassign': 'error',
 		'no-tabs': 'off',
+		'object-curly-spacing': ['error', 'never'],
+		'operator-linebreak': ['error', 'before'],
+		'quote-props': ['error', 'consistent'],
+
 		'require-jsdoc': 'off',
 		'semi': ['error', 'always']
 	}

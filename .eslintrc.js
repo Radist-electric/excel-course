@@ -5,12 +5,15 @@ module.exports = {
 		es6: true
 	},
 	extends: ['eslint:recommended', 'google'],
-	parser: '@babel/eslint-parser',
+	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		babelOptions: {
 			configFile: './babel.config.json'
 		}
 	},
+	plugins: [
+		'@typescript-eslint'
+	],
 	rules: {
 		'brace-style': ['error', '1tbs'],
 		'comma-dangle': ['error', 'only-multiline'],
@@ -42,6 +45,16 @@ module.exports = {
 		'quote-props': ['error', 'consistent'],
 
 		'require-jsdoc': 'off',
-		'semi': ['error', 'always']
+		'semi': ['error', 'always'],
+		'@typescript-eslint/no-unused-vars': 'error',
+		'@typescript-eslint/comma-dangle': ['error', 'only-multiline'],
+		'@typescript-eslint/indent': [
+			'error',
+			'tab',
+			{
+				'SwitchCase': 1
+			}
+		],
+		'@typescript-eslint/no-use-before-define': ['error']
 	}
 };

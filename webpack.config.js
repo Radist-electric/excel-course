@@ -47,7 +47,7 @@ module.exports = (env, argv) => {
 			main: [
 				'core-js/stable',
 				'regenerator-runtime/runtime',
-				'./index.js'
+				'./index.ts'
 			]
 		},
 		output: {
@@ -57,10 +57,11 @@ module.exports = (env, argv) => {
 		},
 		plugins: plugins(),
 		resolve: {
-			extensions: ['.js'],
+			extensions: ['.js', '.ts'],
 			alias: {
-				'@': path.resolve(__dirname, 'src'),
-				'@core': path.resolve(__dirname, 'src', 'core')
+				'components': path.resolve(__dirname, 'src', 'components'),
+				'core': path.resolve(__dirname, 'src', 'core'),
+				'helpers': path.resolve(__dirname, 'src', 'helpers')
 			}
 		},
 		module: {
@@ -84,12 +85,15 @@ module.exports = (env, argv) => {
 					}
 				},
 				{
-					test: /\.m?js$/,
+					test: /\.ts$/,
 					exclude: /node_modules/,
 					use: {
 						loader: 'babel-loader',
 						options: {
-							presets: ['@babel/preset-env']
+							presets: [
+								'@babel/preset-env',
+								'@babel/preset-typescript'
+							]
 						}
 					}
 				}

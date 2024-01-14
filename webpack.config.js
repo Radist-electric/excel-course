@@ -8,7 +8,7 @@ module.exports = (env, argv) => {
 	const isProd = argv.mode === 'production';
 	const isDev = !isProd;
 
-	const filename = (ext) => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
+	const filename = ext => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
 	const plugins = () => {
 		const base = [
 			new CopyPlugin({
@@ -61,7 +61,11 @@ module.exports = (env, argv) => {
 			alias: {
 				'components': path.resolve(__dirname, 'src', 'components'),
 				'core': path.resolve(__dirname, 'src', 'core'),
-				'helpers': path.resolve(__dirname, 'src', 'helpers')
+				'data': path.resolve(__dirname, 'src', 'data'),
+				'helpers': path.resolve(__dirname, 'src', 'helpers'),
+				'scss': path.resolve(__dirname, 'src', 'scss'),
+				'types': path.resolve(__dirname, 'src', 'types'),
+				'utils': path.resolve(__dirname, 'src', 'utils')
 			}
 		},
 		module: {

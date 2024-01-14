@@ -1,5 +1,7 @@
+import {ComponentsType} from 'types';
+
 export type ExcelOptions = {
-	components: any[]
+	components: ComponentsType
 }
 
 export interface IProps {

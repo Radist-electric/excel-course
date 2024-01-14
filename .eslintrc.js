@@ -15,6 +15,7 @@ module.exports = {
 		'@typescript-eslint'
 	],
 	rules: {
+		'arrow-parens': ['error', 'as-needed'],
 		'brace-style': ['error', '1tbs'],
 		'comma-dangle': ['error', 'only-multiline'],
 		'curly': ['error', 'all'],
@@ -47,14 +48,13 @@ module.exports = {
 		'require-jsdoc': 'off',
 		'semi': ['error', 'always'],
 		'@typescript-eslint/no-unused-vars': 'error',
-		'@typescript-eslint/comma-dangle': ['error', 'only-multiline'],
+		'@typescript-eslint/comma-dangle': ['error'],
 		'@typescript-eslint/indent': [
 			'error',
 			'tab',
 			{
 				'SwitchCase': 1
 			}
-		],
-		'@typescript-eslint/no-use-before-define': ['error']
+		]
 	}
 };

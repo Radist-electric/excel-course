@@ -2,7 +2,7 @@ import {Dom} from 'core/Dom';
 import {ExcelComponent} from 'core/ExcelComponent';
 
 export class Toolbar extends ExcelComponent {
-	static className = 'excel__toolbar';
+	static classNames = 'excel__toolbar';
 
 	constructor($root: Dom) {
 		super($root, {

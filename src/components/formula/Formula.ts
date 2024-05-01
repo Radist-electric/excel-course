@@ -3,7 +3,7 @@ import {ExcelComponent} from 'core/ExcelComponent';
 import {FORMULA_LISTENERS} from 'data/constants';
 
 export class Formula extends ExcelComponent {
-	static className = 'excel__formula';
+	static classNames = 'excel__formula';
 
 	constructor($root: Dom) {
 		super($root, {
@@ -20,7 +20,6 @@ export class Formula extends ExcelComponent {
 	}
 
 	onInput(event: Event) {
-		console.log(this.$root);
 		const textContent: string | null = (event.target as HTMLElement).textContent;
 
 		if (textContent) {

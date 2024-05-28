@@ -4,17 +4,16 @@ import {ExcelComponent} from 'core/ExcelComponent';
 import {handleMousedown} from './handlers';
 import {TABLE_LISTENERS} from 'data/constants';
 
-
 export class Table extends ExcelComponent {
 	static classNames = 'excel__table excel__table_resize-el-hover-enable';
 
-	constructor($root: Dom) {
+	constructor ($root: Dom) {
 		super($root, {
 			listeners: TABLE_LISTENERS
 		});
 	}
 
-	toHTML() {
+	toHTML () {
 		return createTable(20);
 	}
 

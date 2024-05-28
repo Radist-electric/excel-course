@@ -1,10 +1,14 @@
 module.exports = {
 	env: {
 		browser: true,
-		node: true,
-		es6: true
+		es6: true,
+		node: true
 	},
-	extends: ['eslint:recommended', 'google'],
+	extends: [
+		'plugin:@nsmp/rules/recommended-js',
+		'plugin:@nsmp/rules/recommended-ts',
+		'plugin:@nsmp/rules/recommended-custom-js'
+	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		babelOptions: {
@@ -12,50 +16,7 @@ module.exports = {
 		}
 	},
 	plugins: [
-		'@typescript-eslint'
+		'@nsmp/rules'
 	],
-	rules: {
-		'arrow-parens': ['error', 'as-needed'],
-		'brace-style': ['error', '1tbs'],
-		'comma-dangle': ['error', 'only-multiline'],
-		'curly': ['error', 'all'],
-
-		'indent': [
-			'error',
-			'tab',
-			{
-				'SwitchCase': 1
-			}
-		],
-		'linebreak-style': 'off',
-		'max-len': ['warn', {
-			'code': 140,
-			'tabWidth': 2,
-			'ignoreComments': true,
-			'ignoreTrailingComments': true,
-			'ignoreTemplateLiterals': true,
-			'ignoreRegExpLiterals': true,
-			'ignorePattern': '^import [^,]+ from |^export'
-		}],
-		'multiline-ternary': ['error', 'always-multiline'],
-		'no-extend-native': ['error', {'exceptions': ['String']}],
-		'no-param-reassign': 'error',
-		'no-tabs': 'off',
-		'object-curly-spacing': ['error', 'never'],
-		'operator-linebreak': ['error', 'before'],
-		'prefer-spread': ['off'],
-		'quote-props': ['error', 'consistent'],
-
-		'require-jsdoc': 'off',
-		'semi': ['error', 'always'],
-		'@typescript-eslint/no-unused-vars': 'error',
-		'@typescript-eslint/comma-dangle': ['error'],
-		'@typescript-eslint/indent': [
-			'error',
-			'tab',
-			{
-				'SwitchCase': 1
-			}
-		]
-	}
+	rules: {}
 };

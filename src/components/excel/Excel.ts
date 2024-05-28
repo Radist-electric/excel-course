@@ -7,7 +7,7 @@ export class Excel {
 	Components: ComponentsType; // массив классов компонентов
 	components: ComponentInstanceType; // массив экземпляров классов компонентов
 
-	constructor(props: IProps) {
+	constructor (props: IProps) {
 		const {selector, options} = props;
 
 		this.$el = $(selector);
@@ -15,7 +15,7 @@ export class Excel {
 		this.components = [];
 	}
 
-	getRoot(): Dom {
+	getRoot (): Dom {
 		const $root = $.create('div', 'excel');
 
 		this.components = this.Components.map(Component => {
@@ -31,11 +31,10 @@ export class Excel {
 		return $root;
 	}
 
-	render(): void {
+	render (): void {
 		if (this.$el) {
 			this.$el.append(this.getRoot());
 			this.components.forEach(component => component.init());
 		}
 	}
 }
-

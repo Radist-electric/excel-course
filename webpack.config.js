@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
 	const isDev = !isProd;
 
 	const filename = ext => isProd ? `[name].[contenthash].bundle.${ext}` : `[name].bundle.${ext}`;
+
 	const plugins = () => {
 		const base = [
 			new CopyPlugin({
@@ -43,31 +44,7 @@ module.exports = (env, argv) => {
 			watchFiles: './'
 		},
 		devtool: isDev ? 'source-map' : false,
-		entry: {
-			main: [
-				'core-js/stable',
-				'regenerator-runtime/runtime',
-				'./index.ts'
-			]
-		},
-		output: {
-			path: path.resolve(__dirname, 'build'),
-			filename: filename('js'),
-			clean: true
-		},
-		plugins: plugins(),
-		resolve: {
-			extensions: ['.js', '.ts'],
-			alias: {
-				'components': path.resolve(__dirname, 'src', 'components'),
-				'core': path.resolve(__dirname, 'src', 'core'),
-				'data': path.resolve(__dirname, 'src', 'data'),
-				'helpers': path.resolve(__dirname, 'src', 'helpers'),
-				'scss': path.resolve(__dirname, 'src', 'scss'),
-				'types': path.resolve(__dirname, 'src', 'types'),
-				'utils': path.resolve(__dirname, 'src', 'utils')
-			}
-		},
+		entry: './index.ts',
 		module: {
 			rules: [
 				{
@@ -79,29 +56,44 @@ module.exports = (env, argv) => {
 					]
 				},
 				{
-					test: /\.(ttf|woff|woff2|eot|svg)$/,
-					type: 'asset/resource',
+					generator: {
+						filename: 'fonts/[hash][ext][query]'
+					},
 					include: [
 						path.resolve(__dirname, 'src/fonts')
 					],
-					generator: {
-						filename: 'fonts/[hash][ext][query]'
-					}
+					test: /\.(ttf|woff|woff2|eot|svg)$/,
+					type: 'asset/resource'
 				},
 				{
-					test: /\.ts$/,
 					exclude: /node_modules/,
+					test: /\.ts$/,
 					use: {
-						loader: 'babel-loader',
+						loader: 'ts-loader',
 						options: {
-							presets: [
-								'@babel/preset-env',
-								'@babel/preset-typescript'
-							]
+							transpileOnly: isDev
 						}
 					}
 				}
 			]
+		},
+		output: {
+			clean: true,
+			filename: filename('js'),
+			path: path.resolve(__dirname, 'build')
+		},
+		plugins: plugins(),
+		resolve: {
+			alias: {
+				'components': path.resolve(__dirname, 'src', 'components'),
+				'core': path.resolve(__dirname, 'src', 'core'),
+				'data': path.resolve(__dirname, 'src', 'data'),
+				'helpers': path.resolve(__dirname, 'src', 'helpers'),
+				'scss': path.resolve(__dirname, 'src', 'scss'),
+				'types': path.resolve(__dirname, 'src', 'types'),
+				'utils': path.resolve(__dirname, 'src', 'utils')
+			},
+			extensions: ['.js', '.ts']
 		}
 	};
 };

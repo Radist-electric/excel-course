@@ -18,9 +18,7 @@ export const capitalizeListener = (str: ListenerType): Capitalize<ListenerType> 
  * @param {ListenerType} eventName - имя события
  * @return {MethodNameType} имя метода
  */
-export const getMethodName = (eventName: ListenerType): MethodNameType => {
-	return ('on' + capitalizeListener(eventName)) as MethodNameType;
-};
+export const getMethodName = (eventName: ListenerType): MethodNameType => ('on' + capitalizeListener(eventName)) as MethodNameType;
 
 /**
  * Возвращает функцию, в которую обёрнута исходная, вызов которой нужно отложить до тех пор, пока с последнего вызова не пройдёт заданный интервал
@@ -46,7 +44,7 @@ export const debounce = (callback: DebounceThrottleFunction, delay: number = 100
 export const throttle = (callback: DebounceThrottleFunction, delay: number = 50): DebounceThrottleFunction => {
 	let inThrottle: boolean;
 
-	return function(this: any, ...args: any[]) {
+	return function (this: any, ...args: any[]) {
 		const context = this;
 
 		if (!inThrottle) {

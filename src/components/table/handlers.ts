@@ -1,6 +1,6 @@
+import {$} from 'core/Dom';
 import {COL_MIN_WIDTH, ROW_MIN_HEIGHT} from 'data/constants';
 import {Table} from './Table';
-import {$} from 'core/Dom';
 
 /**
  * Обрабатывает зажатие левой кнопки мыши
@@ -8,7 +8,7 @@ import {$} from 'core/Dom';
  * @param {MouseEvent} event - событие мыши
  * @return {void}
  */
-export function handleMousedown(this: Table, event: MouseEvent): void {
+export function handleMousedown (this: Table, event: MouseEvent): void {
 	const target = event.target as HTMLDivElement;
 
 	if (target) {
@@ -17,6 +17,7 @@ export function handleMousedown(this: Table, event: MouseEvent): void {
 		if (type) {
 			const $resizeElement = $(target);
 			const $parent = $resizeElement.closest('[data-type="resizable"]');
+
 			this.$root.removeClass('excel__table_resize-el-hover-enable');
 
 			let handleMouseMove: (e: MouseEvent) => void = () => void 0;
@@ -27,6 +28,7 @@ export function handleMousedown(this: Table, event: MouseEvent): void {
 					height: '100vh',
 					opacity: 1
 				});
+
 				const cells = this.$root.findAll(`[data-col="${$parent.data.col}"]`);
 				const coords = $parent.getCoords();
 
@@ -35,6 +37,7 @@ export function handleMousedown(this: Table, event: MouseEvent): void {
 
 					handleMouseMove = (e: MouseEvent) => {
 						const delta = e.pageX - coords.right;
+
 						colWidth = coords.width + delta;
 
 						if (colWidth >= COL_MIN_WIDTH) {
@@ -69,6 +72,7 @@ export function handleMousedown(this: Table, event: MouseEvent): void {
 
 					handleMouseMove = (e: MouseEvent) => {
 						const delta = e.pageY - coords.bottom;
+
 						rowHeight = coords.height + delta;
 
 						if (rowHeight >= ROW_MIN_HEIGHT) {
@@ -88,6 +92,7 @@ export function handleMousedown(this: Table, event: MouseEvent): void {
 			}
 
 			document.onmousemove = handleMouseMove;
+
 			document.onmouseup = () => {
 				this.$root.addClass('excel__table_resize-el-hover-enable');
 				handleMouseUp();

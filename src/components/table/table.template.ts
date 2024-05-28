@@ -40,6 +40,7 @@ export const createTable = (rowsCount = 15) => {
 		const cells = colsEmptyArray
 			.map(createCell)
 			.join('');
+
 		rows.push(createRow(i + 1, cells));
 	}
 

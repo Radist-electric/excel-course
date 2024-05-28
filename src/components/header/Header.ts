@@ -3,7 +3,7 @@ import {ExcelComponent} from 'core/ExcelComponent';
 export class Header extends ExcelComponent {
 	static classNames = 'excel__header';
 
-	toHTML() {
+	toHTML () {
 		return `
 			<input type="text" class="input" value="Новая таблица" />
 

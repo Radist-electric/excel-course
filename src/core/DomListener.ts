@@ -7,7 +7,7 @@ export class DomListener {
 	listeners: ListenerType[];
 	name: string;
 
-	constructor($root: Dom, listeners: ListenerType[] = []) {
+	constructor ($root: Dom, listeners: ListenerType[] = []) {
 		if (!$root) {
 			throw new Error(`No $root provided for DomListener!`);
 		}
@@ -17,7 +17,7 @@ export class DomListener {
 		this.name = '';
 	}
 
-	initDOMListeners() {
+	initDOMListeners () {
 		this.listeners.forEach(listener => {
 			const method = getMethodName(listener) as keyof this;
 
@@ -36,9 +36,10 @@ export class DomListener {
 		});
 	}
 
-	removeDOMListeners() {
+	removeDOMListeners () {
 		this.listeners.forEach(listener => {
 			const method = getMethodName(listener) as keyof this;
+
 			// @ts-ignore
 			this.$root.off(listener, this[method]);
 		});

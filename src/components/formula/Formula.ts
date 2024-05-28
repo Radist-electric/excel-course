@@ -5,21 +5,21 @@ import {FORMULA_LISTENERS} from 'data/constants';
 export class Formula extends ExcelComponent {
 	static classNames = 'excel__formula';
 
-	constructor($root: Dom) {
+	constructor ($root: Dom) {
 		super($root, {
 			listeners: FORMULA_LISTENERS,
 			name: 'Formula'
 		});
 	}
 
-	toHTML() {
+	toHTML () {
 		return `
 			<div class="info">fx</div>
 			<div class="input" contenteditable spellcheck="false"></div>
 		`;
 	}
 
-	onInput(event: Event) {
+	onInput (event: Event) {
 		const textContent: string | null = (event.target as HTMLElement).textContent;
 
 		if (textContent) {
@@ -27,7 +27,7 @@ export class Formula extends ExcelComponent {
 		}
 	}
 
-	onClick() {
+	onClick () {
 		console.log('Formula: mouse click');
 	}
 }

@@ -1,13 +1,13 @@
 export class Dom {
 	$el: Element | null;
 
-	constructor(elementOrSelector: Element | string) {
+	constructor (elementOrSelector: Element | string) {
 		this.$el = typeof elementOrSelector === 'string'
 			? document.querySelector(elementOrSelector) // Element | null
 			: elementOrSelector;
 	}
 
-	get data(): DOMStringMap {
+	get data (): DOMStringMap {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 			return element.dataset;
@@ -16,7 +16,7 @@ export class Dom {
 		return {};
 	}
 
-	html(html: Element | string): string | this {
+	html (html: Element | string): string | this {
 		if (!this.$el || !(this.$el instanceof Element)) {
 			return this;
 		}
@@ -29,24 +29,24 @@ export class Dom {
 		return this.$el.outerHTML.trim();
 	}
 
-	clear(): this {
+	clear (): this {
 		this.html('');
 		return this;
 	}
 
-	on(eventType: string, callback: () => void): void {
+	on (eventType: string, callback: () => void): void {
 		if (this.$el) {
 			this.$el.addEventListener(eventType, callback);
 		}
 	}
 
-	off(eventType: string, callback: () => void): void {
+	off (eventType: string, callback: () => void): void {
 		if (this.$el) {
 			this.$el.removeEventListener(eventType, callback);
 		}
 	}
 
-	append(node: Dom | Element): this {
+	append (node: Dom | Element): this {
 		const currentNode = node instanceof Dom ? node.$el : node;
 
 		if (this.$el instanceof Element && currentNode instanceof Element) {
@@ -62,20 +62,20 @@ export class Dom {
 		return this;
 	}
 
-	closest(selector: string): Dom | null {
+	closest (selector: string): Dom | null {
 		const closestElement = this.$el ? this.$el.closest(selector) : null;
 		return closestElement ? $(closestElement) : null;
 	}
 
-	getCoords(): DOMRect | null {
+	getCoords (): DOMRect | null {
 		return this.$el ? this.$el.getBoundingClientRect() : null;
 	}
 
-	findAll(selector: string): HTMLElement[] {
+	findAll (selector: string): HTMLElement[] {
 		return this.$el ? Array.from(this.$el.querySelectorAll(selector)) as HTMLElement[] : [];
 	}
 
-	css(styles: Record<string, string | number | null> = {}) {
+	css (styles: Record<string, string | number | null> = {}) {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 
@@ -91,30 +91,31 @@ export class Dom {
 		}
 	}
 
-	addClass(className: string) {
+	addClass (className: string) {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
+
 			element.classList.add(className);
 		}
 	}
 
-	removeClass(className: string) {
+	removeClass (className: string) {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
+
 			element.classList.remove(className);
 		}
 	}
 }
 
-export const $ = (selector: string | Element): Dom => {
-	return new Dom(selector);
-};
+export const $ = (selector: string | Element): Dom => new Dom(selector);
 
 $.create = (tagName: string, classNames = ''): Dom => {
 	const el = document.createElement(tagName);
 
 	if (classNames) {
 		const splittedClassNames = classNames.split(' ');
+
 		splittedClassNames.forEach(className => el.classList.add(className));
 	}
 

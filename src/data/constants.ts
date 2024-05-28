@@ -7,13 +7,18 @@ export const COMPONENTS = [Header, Toolbar, Formula, Table];
 
 export const FORMULA_LISTENERS = ['input', 'click'];
 export const HEADER_LISTENERS = ['input'];
+export const TABLE_LISTENERS = ['mousedown'];
 
 export const LISTENERS = [...new Set([
 	...FORMULA_LISTENERS,
-	...HEADER_LISTENERS
+	...HEADER_LISTENERS,
+	...TABLE_LISTENERS
 ])] as const;
 
 export const CODES = {
 	A: 65,
 	Z: 90
 };
+
+export const COL_MIN_WIDTH = 40;
+export const ROW_MIN_HEIGHT = 24;

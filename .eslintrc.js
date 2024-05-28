@@ -43,6 +43,7 @@ module.exports = {
 		'no-tabs': 'off',
 		'object-curly-spacing': ['error', 'never'],
 		'operator-linebreak': ['error', 'before'],
+		'prefer-spread': ['off'],
 		'quote-props': ['error', 'consistent'],
 
 		'require-jsdoc': 'off',

@@ -2,20 +2,29 @@ import {CODES} from 'data/constants';
 
 const toChar = (_: string, index: number) => String.fromCharCode(CODES.A + index);
 
-const toColumn = (col: string) => `<div class="column">${col}</div>`;
+const toColumn = (col: string, index: number) => `
+	<div class="column" data-type="resizable" data-col="${index}">
+		${col}
+		<div class="col-resize" data-resize="col"></div>
+	</div>
+`;
 
-const createCell = () => `<div class="cell" contenteditable></div>`;
+const createCell = (_: string, index: number) => `<div class="cell" data-col="${index}" contenteditable></div>`;
 
-const createRow = (num: number, content: string) => (
-	`
-		<div class="row">
-			<div class="row-info">${num === 0 ? '' : num}</div>
+const createRow = (index: number, content: string) => {
+	const resize = index ? '<div class="row-resize" data-resize="row"></div>' : '';
+	return `
+		<div class="row" ${index ? 'data-type="resizable"' : ''}>
+			<div class="row-info">
+				${index === 0 ? '' : index}
+				${resize}
+			</div>
 			<div class="row-data">${content}</div>
 		</div>
-	`
-);
+	`;
+};
 
-export const createTable = (rowsCount = 20) => {
+export const createTable = (rowsCount = 15) => {
 	const colsCount = CODES.Z - CODES.A + 1;
 	const colsEmptyArray = new Array(colsCount).fill('');
 	const rows = [];
@@ -34,5 +43,5 @@ export const createTable = (rowsCount = 20) => {
 		rows.push(createRow(i + 1, cells));
 	}
 
-	return rows.join('');
+	return [...rows].join('');
 };

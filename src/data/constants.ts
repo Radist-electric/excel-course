@@ -7,7 +7,7 @@ export const COMPONENTS = [Header, Toolbar, Formula, Table];
 
 export const FORMULA_LISTENERS = ['input', 'click'];
 export const HEADER_LISTENERS = ['input'];
-export const TABLE_LISTENERS = ['mousedown'];
+export const TABLE_LISTENERS = ['click', 'mousedown'];
 
 export const LISTENERS = [...new Set([
 	...FORMULA_LISTENERS,

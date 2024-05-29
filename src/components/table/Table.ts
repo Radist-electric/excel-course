@@ -1,5 +1,5 @@
+import {$, Dom} from 'core/Dom';
 import {createTable} from 'components/table/table.template';
-import {Dom} from 'core/Dom';
 import {ExcelComponent} from 'core/ExcelComponent';
 import {handleMousedown} from 'components/table/table.handlers';
 import {TABLE_LISTENERS} from 'data/constants';
@@ -31,6 +31,14 @@ export class Table extends ExcelComponent {
 
 		if ($cell) {
 			this.selection.select($cell);
+		}
+	}
+
+	onClick (event: Event) {
+		if (event.target) {
+			const target = event.target as HTMLElement;
+
+			this.selection.select($(target));
 		}
 	}
 

@@ -71,6 +71,15 @@ export class Dom {
 		return this.$el ? this.$el.getBoundingClientRect() : null;
 	}
 
+	find (selector: string): Dom | null {
+		if (this.$el) {
+			const foundEl = this.$el.querySelector(selector);
+			return foundEl ? $(foundEl) : null;
+		}
+
+		return null;
+	}
+
 	findAll (selector: string): HTMLElement[] {
 		return this.$el ? Array.from(this.$el.querySelectorAll(selector)) as HTMLElement[] : [];
 	}

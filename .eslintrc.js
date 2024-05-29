@@ -7,7 +7,7 @@ module.exports = {
 	extends: [
 		'plugin:@nsmp/rules/recommended-js',
 		'plugin:@nsmp/rules/recommended-ts',
-		'plugin:@nsmp/rules/recommended-custom-js'
+		'plugin:@nsmp/rules/recommended-custom-rules'
 	],
 	parser: '@typescript-eslint/parser',
 	parserOptions: {

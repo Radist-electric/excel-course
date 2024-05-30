@@ -1,7 +1,8 @@
 import {$, Dom} from 'core/Dom';
 import {createTable} from 'components/table/table.template';
 import {ExcelComponent} from 'core/ExcelComponent';
-import {handleMousedown} from 'components/table/table.handlers';
+import {handleResize} from 'components/table/table.handlers';
+import {isCell, shouldResize} from 'components/table/table.helpers';
 import {TABLE_LISTENERS} from 'data/constants';
 import {TableSelection} from 'components/table/TableSelection';
 
@@ -34,13 +35,15 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	onClick (event: Event) {
-		if (event.target) {
+	onMousedown (event: MouseEvent) {
+		if (shouldResize(event)) {
+			handleResize(this.$root, event);
+		}
+
+		if (isCell(event)) {
 			const target = event.target as HTMLElement;
 
 			this.selection.select($(target));
 		}
 	}
-
-	onMousedown = handleMousedown;
 }

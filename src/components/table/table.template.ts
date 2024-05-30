@@ -12,8 +12,9 @@ const toColumn = (col: string, index: number) => `
 function createCell (row: number) {
 	return (_: string, col: number) => `
 		<div 
-			class="cell" 
-			contenteditable 
+			class="cell"
+			contenteditable
+			data-type="cell"
 			data-col="${col}"
 			data-id="${row}:${col}"
 		></div>

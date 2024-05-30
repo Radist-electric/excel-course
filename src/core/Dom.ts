@@ -1,3 +1,5 @@
+import {TableCellId} from 'types';
+
 export class Dom {
 	$el: Element | null;
 
@@ -44,6 +46,19 @@ export class Dom {
 		if (this.$el) {
 			this.$el.removeEventListener(eventType, callback);
 		}
+	}
+
+	id (): string {
+		return this.data.id || '';
+	}
+
+	idAsObject (): TableCellId {
+		const parsed = this.id().split(':');
+
+		return {
+			col: Number(parsed[1]),
+			row: Number(parsed[0])
+		};
 	}
 
 	append (node: Dom | Element): this {

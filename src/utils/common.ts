@@ -14,7 +14,7 @@ export const capitalizeListener = (str: ListenerType): Capitalize<ListenerType> 
 };
 
 /**
- * Получает имя метода из имени события (input => onInput)
+ * Возвращает имя метода из имени события (input => onInput)
  * @param {ListenerType} eventName - имя события
  * @return {MethodNameType} имя метода
  */
@@ -56,4 +56,22 @@ export const throttle = (callback: DebounceThrottleFunction, delay: number = 50)
 			}, delay);
 		}
 	};
+};
+
+/**
+ * Возвращает массив целых чисел в указанном диапазоне
+ * @param {number} start - начальная позиция диапазона
+ * @param {number} end - конечная позиция диапазона
+ * @returns {number[]} - массив целых чисел в указанном диапазоне
+ */
+export const getRange = (start: number, end: number): number[] => {
+	let [startPosition, endPosition] = [start, end];
+
+	if (start > end) {
+		[endPosition, startPosition] = [start, end];
+	}
+
+	return new Array(endPosition - startPosition + 1)
+		.fill('')
+		.map((_, index) => startPosition + index);
 };

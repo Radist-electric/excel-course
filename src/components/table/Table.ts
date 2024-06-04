@@ -1,7 +1,7 @@
 import {$, Dom} from 'core/Dom';
 import {createTable} from 'components/table/table.template';
 import {ExcelComponent} from 'core/ExcelComponent';
-import {getCellMatrix, isCell, shouldResize} from 'components/table/table.helpers';
+import {getCellMatrix, isCell, nextSelector, shouldResize} from 'components/table/table.helpers';
 import {handleResize} from 'components/table/table.handlers';
 import {TABLE_LISTENERS} from 'data/constants';
 import {TableSelection} from 'components/table/TableSelection';
@@ -58,6 +58,32 @@ export class Table extends ExcelComponent {
 				this.selection.selectGroup($cells);
 			} else {
 				this.selection.select($(target));
+			}
+		}
+	}
+
+	onKeydown (event: KeyboardEvent) {
+		const keys = [
+			'Enter',
+			'Tab',
+			'ArrowLeft',
+			'ArrowRight',
+			'ArrowDown',
+			'ArrowUp'
+		];
+
+		const {key} = event;
+
+		if (keys.includes(key) && !event.shiftKey) {
+			event.preventDefault();
+
+			if (this.selection.current) {
+				const id = this.selection.current.idAsObject();
+				const $next = this.$root.find(nextSelector(key, id));
+
+				if ($next) {
+					this.selection.select($next);
+				}
 			}
 		}
 	}

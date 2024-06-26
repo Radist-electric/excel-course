@@ -1,4 +1,4 @@
-import {TableCellId} from 'types';
+import {VoidFunc, TableCellId} from 'types';
 
 export class Dom {
 	$el: Element | null;
@@ -36,13 +36,13 @@ export class Dom {
 		return this;
 	}
 
-	on (eventType: string, callback: () => void): void {
+	on (eventType: string, callback: VoidFunc): void {
 		if (this.$el) {
 			this.$el.addEventListener(eventType, callback);
 		}
 	}
 
-	off (eventType: string, callback: () => void): void {
+	off (eventType: string, callback: VoidFunc): void {
 		if (this.$el) {
 			this.$el.removeEventListener(eventType, callback);
 		}

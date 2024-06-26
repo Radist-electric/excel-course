@@ -1,5 +1,6 @@
 import {$, Dom} from 'core/Dom';
 import {COL_MIN_WIDTH, ROW_MIN_HEIGHT} from 'data/constants';
+import {VoidFunc} from 'types';
 
 /**
  * Обрабатывает зажатие левой кнопки мыши
@@ -17,7 +18,7 @@ export function handleResize ($root: Dom, event: MouseEvent): void {
 	$root.removeClass('excel__table_resize-el-hover-enable');
 
 	let handleMouseMove: (e: MouseEvent) => void = () => void 0;
-	let handleMouseUp: () => void = () => void 0;
+	let handleMouseUp: VoidFunc = () => void 0;
 
 	if ($parent && type === 'col') {
 		$resizeElement.css({

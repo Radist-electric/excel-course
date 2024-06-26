@@ -15,3 +15,5 @@ export type TableCellId = {
 	col: number,
 	row: number
 };
+export type VoidFunc = () => void;
+export type VoidFuncWithArgs = (...args: any) => void;

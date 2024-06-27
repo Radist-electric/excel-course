@@ -1,4 +1,4 @@
-import {VoidFunc, TableCellId} from 'types';
+import {TableCellId, VoidFunc} from 'types';
 
 export class Dom {
 	$el: Element | null;
@@ -29,6 +29,12 @@ export class Dom {
 		}
 
 		return this.$el.outerHTML.trim();
+	}
+
+	text (text: string) {
+		if (this.$el) {
+			this.$el.textContent = text;
+		}
 	}
 
 	clear (): this {

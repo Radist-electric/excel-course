@@ -3,6 +3,7 @@ import {createTable} from 'components/table/table.template';
 import {ExcelComponent} from 'core/ExcelComponent';
 import {getCellMatrix, isCell, nextSelector, shouldResize} from 'components/table/table.helpers';
 import {handleResize} from 'components/table/table.handlers';
+import {OptionsType} from 'core/types';
 import {TABLE_LISTENERS} from 'data/constants';
 import {TableSelection} from 'components/table/TableSelection';
 
@@ -11,9 +12,11 @@ export class Table extends ExcelComponent {
 
 	static classNames = 'excel__table excel__table_resize-el-hover-enable';
 
-	constructor ($root: Dom) {
+	constructor ($root: Dom, options: OptionsType) {
 		super($root, {
-			listeners: TABLE_LISTENERS
+			listeners: TABLE_LISTENERS,
+			name: 'Table',
+			...options
 		});
 	}
 
@@ -33,6 +36,15 @@ export class Table extends ExcelComponent {
 		if ($cell) {
 			this.selection.select($cell);
 		}
+
+		this.emitter.subscribe('Formula:text', (text: string) => {
+			const $current = this.selection.current;
+
+			if ($current) {
+				$current.text(text);
+				console.log('Table from Formula', text);
+			}
+		});
 	}
 
 	onMousedown (event: MouseEvent) {

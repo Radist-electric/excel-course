@@ -1,15 +1,18 @@
 import {Dom} from 'core/Dom';
 import {ExcelComponent} from 'core/ExcelComponent';
 import {FORMULA_LISTENERS} from 'data/constants';
+import {OptionsType} from 'core/types';
 
 export class Formula extends ExcelComponent {
 	static classNames = 'excel__formula';
 
-	constructor ($root: Dom) {
-		super($root, {
-			listeners: FORMULA_LISTENERS,
-			name: 'Formula'
-		});
+	constructor ($root: Dom, options: OptionsType) {
+		super($root,
+			{
+				listeners: FORMULA_LISTENERS,
+				name: 'Formula',
+				...options
+			});
 	}
 
 	toHTML () {
@@ -23,7 +26,10 @@ export class Formula extends ExcelComponent {
 		const textContent: string | null = (event.target as HTMLElement).textContent;
 
 		if (textContent) {
-			console.log('Formula: onInput', textContent.trim());
+			const text = textContent.trim();
+
+			this.emitter.emit('Formula:text', text);
+			console.log('Formula: onInput', text);
 		}
 	}
 

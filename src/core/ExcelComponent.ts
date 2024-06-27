@@ -1,11 +1,20 @@
 import {Dom} from 'core/Dom';
 import {DomListener} from 'core/DomListener';
-import {OptionsType} from './types';
+import {Emitter} from 'core/Emitter';
+import {OptionsType} from 'core/types';
 
 export class ExcelComponent extends DomListener {
-	constructor ($root: Dom, options: OptionsType = {}) {
+	emitter: Emitter;
+
+	constructor (
+		$root: Dom,
+		options: OptionsType = {
+			emitter: new Emitter()
+		}
+	) {
 		super($root, options.listeners);
 
+		this.emitter = options.emitter;
 		this.name = options.name || '';
 		this.prepare();
 	}

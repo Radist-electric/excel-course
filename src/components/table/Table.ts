@@ -37,12 +37,11 @@ export class Table extends ExcelComponent {
 			this.selection.select($cell);
 		}
 
-		this.emitter.subscribe('Formula:text', (text: string) => {
+		this.$on('formula:input', (text: string) => {
 			const $current = this.selection.current;
 
 			if ($current) {
 				$current.text(text);
-				console.log('Table from Formula', text);
 			}
 		});
 	}

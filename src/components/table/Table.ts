@@ -44,6 +44,14 @@ export class Table extends ExcelComponent {
 				$current.text(text);
 			}
 		});
+
+		this.$on('formula:enter', () => {
+			const $current = this.selection.current;
+
+			if ($current) {
+				$current.focus();
+			}
+		});
 	}
 
 	onMousedown (event: MouseEvent) {
@@ -96,6 +104,16 @@ export class Table extends ExcelComponent {
 					this.selection.select($next);
 				}
 			}
+		}
+	}
+
+	onInput (event: Event) {
+		const textContent: string | null = (event.target as HTMLElement).textContent;
+
+		if (textContent) {
+			const text = textContent.trim();
+
+			this.$emit('table:input', text);
 		}
 	}
 }

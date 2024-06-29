@@ -37,6 +37,25 @@ export class Dom {
 		}
 	}
 
+	focus () {
+		if (this.$el) {
+			const element = this.$el as HTMLElement;
+			const selection = window.getSelection();
+
+			element.focus();
+
+			// Перемещаем курсор в конец строки
+			if (selection) {
+				const range = document.createRange();
+
+				range.selectNodeContents(element);
+				range.collapse(false);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			}
+		}
+	}
+
 	clear (): this {
 		this.html('');
 		return this;

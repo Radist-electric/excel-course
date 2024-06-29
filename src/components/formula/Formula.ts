@@ -18,8 +18,20 @@ export class Formula extends ExcelComponent {
 	toHTML () {
 		return `
 			<div class="info">fx</div>
-			<div class="input" contenteditable spellcheck="false"></div>
+			<div class="input" contenteditable spellcheck="false" data-id="formula"></div>
 		`;
+	}
+
+	init () {
+		super.init();
+
+		this.$on('table:input', (text: string) => {
+			const formulaInput = this.$root.find('[data-id="formula"]');
+
+			if (formulaInput) {
+				formulaInput.text(text);
+			}
+		});
 	}
 
 	onInput (event: Event) {
@@ -34,5 +46,12 @@ export class Formula extends ExcelComponent {
 
 	onClick () {
 		console.log('Formula: mouse click');
+	}
+
+	onKeydown (event: KeyboardEvent) {
+		if (event.key === 'Enter' && !event.shiftKey) {
+			event.preventDefault();
+			this.$emit('formula:enter');
+		}
 	}
 }

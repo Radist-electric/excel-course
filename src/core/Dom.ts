@@ -1,3 +1,5 @@
+import {TableCellId, VoidFunc} from 'types';
+
 export class Dom {
 	$el: Element | null;
 
@@ -29,21 +31,77 @@ export class Dom {
 		return this.$el.outerHTML.trim();
 	}
 
+	text (text?: Dom | string) {
+		if (!this.$el) {
+			return this;
+		}
+
+		if (typeof text === 'string') {
+			this.$el.textContent = text;
+			return this;
+		}
+
+		if (this.$el.tagName.toLowerCase() === 'input') {
+			const inputElement = this.$el as HTMLInputElement;
+			return inputElement.value.trim();
+		}
+
+		return this.$el.textContent?.trim();
+	}
+
+	focus (): this {
+		if (this.$el) {
+			const element = this.$el as HTMLElement;
+			const selection = window.getSelection();
+
+			element.focus();
+
+			// Перемещаем курсор в конец строки
+			if (selection) {
+				const range = document.createRange();
+
+				range.selectNodeContents(element);
+				range.collapse(false);
+				selection.removeAllRanges();
+				selection.addRange(range);
+			}
+		}
+
+		return this;
+	}
+
 	clear (): this {
 		this.html('');
 		return this;
 	}
 
-	on (eventType: string, callback: () => void): void {
+	on (eventType: string, callback: VoidFunc): this {
 		if (this.$el) {
 			this.$el.addEventListener(eventType, callback);
 		}
+
+		return this;
 	}
 
-	off (eventType: string, callback: () => void): void {
+	off (eventType: string, callback: VoidFunc): this {
 		if (this.$el) {
 			this.$el.removeEventListener(eventType, callback);
 		}
+
+		return this;
+	}
+
+	id (): string {
+		return this.data.id || '';
+	}
+
+	idAsObject (): TableCellId {
+		const parsed = this.id().split(':');
+
+		return {
+			col: Number(parsed[1]),
+			row: Number(parsed[0])
+		};
 	}
 
 	append (node: Dom | Element): this {
@@ -71,6 +129,15 @@ export class Dom {
 		return this.$el ? this.$el.getBoundingClientRect() : null;
 	}
 
+	find (selector: string): Dom | null {
+		if (this.$el) {
+			const foundEl = this.$el.querySelector(selector);
+			return foundEl ? $(foundEl) : null;
+		}
+
+		return null;
+	}
+
 	findAll (selector: string): HTMLElement[] {
 		return this.$el ? Array.from(this.$el.querySelectorAll(selector)) as HTMLElement[] : [];
 	}
@@ -91,20 +158,24 @@ export class Dom {
 		}
 	}
 
-	addClass (className: string) {
+	addClass (className: string): this {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 
 			element.classList.add(className);
 		}
+
+		return this;
 	}
 
-	removeClass (className: string) {
+	removeClass (className: string): this {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 
 			element.classList.remove(className);
 		}
+
+		return this;
 	}
 }
 

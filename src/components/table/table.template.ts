@@ -9,7 +9,17 @@ const toColumn = (col: string, index: number) => `
 	</div>
 `;
 
-const createCell = (_: string, index: number) => `<div class="cell" data-col="${index}" contenteditable></div>`;
+function createCell (row: number) {
+	return (_: string, col: number) => `
+		<div 
+			class="cell"
+			contenteditable
+			data-type="cell"
+			data-col="${col}"
+			data-id="${row}:${col}"
+		></div>
+	`;
+}
 
 const createRow = (index: number, content: string) => {
 	const resize = index ? '<div class="row-resize" data-resize="row"></div>' : '';
@@ -36,12 +46,12 @@ export const createTable = (rowsCount = 15) => {
 
 	rows.push(createRow(0, cols));
 
-	for (let i = 0; i < rowsCount; i++) {
+	for (let row = 0; row < rowsCount; row++) {
 		const cells = colsEmptyArray
-			.map(createCell)
+			.map(createCell(row))
 			.join('');
 
-		rows.push(createRow(i + 1, cells));
+		rows.push(createRow(row + 1, cells));
 	}
 
 	return [...rows].join('');

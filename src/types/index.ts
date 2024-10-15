@@ -11,3 +11,9 @@ export type ComponentInstanceType = InstanceType<ComponentType>[];
 export type ListenerType = typeof LISTENERS[number];
 export type MethodNameType = `on${Capitalize<ListenerType>}`;
 export type DebounceThrottleFunction = (...args: any[]) => void;
+export type TableCellId = {
+	col: number,
+	row: number
+};
+export type VoidFunc = () => void;
+export type VoidFuncWithArgs = (...args: any) => void;

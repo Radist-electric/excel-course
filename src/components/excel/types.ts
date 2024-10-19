@@ -1,3 +1,4 @@
+import {Action, State, Store} from 'redux/types';
 import {ComponentsType} from 'types';
 
 export type ExcelOptions = {
@@ -5,6 +6,7 @@ export type ExcelOptions = {
 };
 
 export interface IProps {
+	options: ExcelOptions,
 	selector: string,
-	options: ExcelOptions
+	store: Store<State, Action>
 }

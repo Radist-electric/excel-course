@@ -89,6 +89,7 @@ module.exports = (env, argv) => {
 				'core': path.resolve(__dirname, 'src', 'core'),
 				'data': path.resolve(__dirname, 'src', 'data'),
 				'helpers': path.resolve(__dirname, 'src', 'helpers'),
+				'redux': path.resolve(__dirname, 'src', 'redux'),
 				'scss': path.resolve(__dirname, 'src', 'scss'),
 				'types': path.resolve(__dirname, 'src', 'types'),
 				'utils': path.resolve(__dirname, 'src', 'utils')

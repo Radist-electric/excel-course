@@ -25,3 +25,36 @@ export function createStore (
 		}
 	};
 }
+
+export class CreateStore {
+	listeners: Array<(state: State) => void>;
+	rootReducer: RootReducer<State, Action>;
+	state: State;
+
+	constructor (
+		rootReducer: RootReducer<State, Action>,
+		initialState: State
+	) {
+		this.listeners = [];
+		this.rootReducer = rootReducer;
+		this.state = rootReducer(initialState, {type: '__INIT__'});
+	}
+
+	dispatch (action: Action) {
+		this.listeners.forEach(listener => listener(this.state));
+		this.state = this.rootReducer(this.state, action);
+	}
+
+	getState () {
+		return this.state;
+	}
+
+	subscribe (fn: (state: State) => void) {
+		this.listeners.push(fn);
+		return {
+			unsubscribe: () => {
+				this.listeners = this.listeners.filter(listener => listener !== fn);
+			}
+		};
+	}
+}

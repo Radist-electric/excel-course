@@ -2,11 +2,11 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'scss/index.scss';
 import {COMPONENTS} from 'data/constants';
-import {createStore} from 'core/createStore';
+import {CreateStore as Store} from 'core/createStore';
 import {Excel} from 'components/excel/Excel';
 import {rootReducer} from 'redux/rootReducer';
 
-const store = createStore(rootReducer, {});
+const store = new Store(rootReducer, {});
 
 const excel = new Excel({
 	options: {

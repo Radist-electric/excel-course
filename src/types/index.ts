@@ -17,3 +17,10 @@ export type TableCellId = {
 };
 export type VoidFunc = () => void;
 export type VoidFuncWithArgs = (...args: any) => void;
+
+export type RouteType = {
+	component: any,
+	path: string
+};
+
+export type RoutesType = Record<string, RouteType>;

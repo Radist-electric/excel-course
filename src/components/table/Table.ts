@@ -24,15 +24,27 @@ export class Table extends ExcelComponent {
 		});
 	}
 
-	toHTML () {
+	/**
+	 * Возвращает HTML разметку таблицы
+	 * @returns {string} HTML разметка таблицы
+	 */
+	toHTML (): string {
 		return createTable(20, this.store.getState());
 	}
 
-	prepare () {
+	/**
+	 * Подготавливает компонент
+	 * @returns {void}
+	 */
+	prepare (): void {
 		this.selection = new TableSelection();
 	}
 
-	init () {
+	/**
+	 * Инициализирует компонент
+	 * @returns {void}
+	 */
+	init (): void {
 		super.init();
 
 		this.selectCell(this.$root.find('[data-id="0:0"]'));
@@ -58,13 +70,18 @@ export class Table extends ExcelComponent {
 		this.$on('toolbar:applyStyle', (style: Record<string, number | string | null>) => {
 			this.selection.applyStyle(style);
 			this.$dispatch(applyStyle({
-				ids: this.selection.selectedIds,
+				ids: this.selection.selectedIds(),
 				value: style
 			}));
 		});
 	}
 
-	storeChanged (changes: Partial<State>) {
+	/**
+	 * Обрабатывает изменения состояния
+	 * @param {Partial<State>} changes - изменения состояния
+	 * @returns {void}
+	 */
+	storeChanged (changes: Partial<State>): void {
 		// Перерисовываем таблицу при изменении размеров колонок или строк
 		if (changes.colState || changes.rowState) {
 			this.$root.html(this.toHTML());
@@ -81,7 +98,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	selectCell ($cell: Dom | null) {
+	/**
+	 * Выбирает ячейку
+	 * @param {Dom | null} $cell - DOM элемент ячейки
+	 * @returns {void}
+	 */
+	selectCell ($cell: Dom | null): void {
 		if ($cell) {
 			this.selection.select($cell);
 			this.$emit('table:select', $cell);
@@ -93,7 +115,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	async resizeTable (event: MouseEvent) {
+	/**
+	 * Обрабатывает изменение размера таблицы
+	 * @param {MouseEvent} event - событие мыши
+	 * @returns {void}
+	 */
+	async resizeTable (event: MouseEvent): Promise<void> {
 		try {
 			const data = await handleResize(this.$root, event);
 
@@ -105,7 +132,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	onMousedown (event: MouseEvent) {
+	/**
+	 * Обрабатывает нажатие мыши на таблице
+	 * @param {MouseEvent} event - событие мыши
+	 * @returns {void}
+	 */
+	onMousedown (event: MouseEvent): void {
 		if (shouldResize(event)) {
 			this.resizeTable(event);
 		}
@@ -132,7 +164,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	onClick (event: MouseEvent) {
+	/**
+	 * Обрабатывает клик на таблице
+	 * @param {MouseEvent} event - событие мыши
+	 * @returns {void}
+	 */
+	onClick (event: MouseEvent): void {
 		if (event.target) {
 			const target = event.target as HTMLElement;
 			const type = target.dataset.type;
@@ -143,7 +180,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	onKeydown (event: KeyboardEvent) {
+	/**
+	 * Обрабатывает нажатие клавиши на таблице
+	 * @param {KeyboardEvent} event - событие нажатия клавиши
+	 * @returns {void}
+	 */
+	onKeydown (event: KeyboardEvent): void {
 		const keys = [
 			'Enter',
 			'Tab',
@@ -168,7 +210,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	updateTextInStore (value: Dom | string | undefined) {
+	/**
+	 * Обновляет текст в хранилище
+	 * @param {Dom | string | undefined} value - значение
+	 * @returns {void}
+	 */
+	updateTextInStore (value: Dom | string | undefined): void {
 		if (this.selection.current && typeof value === 'string') {
 			this.$dispatch(changeText({
 				id: this.selection.current.id(),
@@ -177,7 +224,12 @@ export class Table extends ExcelComponent {
 		}
 	}
 
-	onInput (event: InputEvent) {
+	/**
+	 * Обрабатывает ввод в таблице
+	 * @param {InputEvent} event - событие ввода
+	 * @returns {void}
+	 */
+	onInput (event: InputEvent): void {
 		if (event.target) {
 			const $target = $(event.target as HTMLElement);
 

@@ -1,0 +1,40 @@
+@import url("variables");
+@import url("mixins");
+
+:global {
+	.excel__header {
+		display: flex;
+		height: @header-height;
+		justify-content: space-between;
+		left: 0;
+		padding: 8px 4px 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+
+		& .input {
+			border: 1px solid transparent;
+			border-radius: 2px;
+			color: #000;
+			font-size: 18px;
+			height: 20px;
+			line-height: 22px;
+			margin: 0;
+			min-width: 1px;
+			outline: none;
+			padding: 2px 7px;
+
+			&:hover {
+				border: 1px solid @border-color;
+			}
+
+			&:focus {
+				border: 2px solid #1A73E8;
+			}
+		}
+
+		.button {
+			.button(red);
+		}
+	}
+}

@@ -1,5 +1,40 @@
 import {ToolbarButton} from './types';
 
+/**
+ * Проверяет, содержит ли текущий textDecoration указанное значение
+ * @param {string} currentTextDecoration - текущий textDecoration
+ * @param {string} decoration - проверяемое значение textDecoration
+ * @returns {boolean} true, если currentTextDecoration содержит decoration
+ */
+const hasTextDecoration = (currentTextDecoration: string, decoration: string): boolean =>
+	currentTextDecoration.includes(decoration);
+
+/**
+ * Добавляет или удаляет значение textDecoration в соответствии с переданным параметром
+ * @param {string} textDecoration - текущий textDecoration
+ * @param {string} decoration - проверяемое значение textDecoration
+ * @returns {string} обновлённый textDecoration
+ */
+const toggleTextDecoration = (textDecoration: string, decoration: string): string => {
+	// Разбиваем textDecoration на массив значений и фильтруем пустые значения и 'none'
+	const decorations = textDecoration.split(' ').filter(d => d && d !== 'none');
+
+	if (decorations.includes(decoration)) {
+		// Если значение уже было, то удаляем decoration из массива
+		const newDecorations = decorations.filter(d => d !== decoration);
+		return newDecorations.length > 0 ? newDecorations.join(' ') : 'none';
+	} else {
+		// Если значения не было, то добавляем decoration в массив
+		const newDecorations = [...decorations, decoration];
+		return newDecorations.join(' ');
+	}
+};
+
+/**
+ * Создаёт HTML разметку кнопки
+ * @param {ToolbarButton} button - кнопка
+ * @returns {string} HTML разметка кнопки
+ */
 const toButton = (button: ToolbarButton): string => {
 	const meta = `
 		data-type="button"
@@ -53,9 +88,14 @@ export const createToolbar = (state: Record<string, any> = {}): string => {
 			value: {fontStyle: fontStyle === 'italic' ? 'normal' : 'italic'}
 		},
 		{
-			active: textDecoration === 'underline',
+			active: hasTextDecoration(textDecoration, 'underline'),
 			icon: 'format_underlined',
-			value: {textDecoration: textDecoration === 'underline' ? 'none' : 'underline'}
+			value: {textDecoration: toggleTextDecoration(textDecoration, 'underline')}
+		},
+		{
+			active: hasTextDecoration(textDecoration, 'line-through'),
+			icon: 'strikethrough_s',
+			value: {textDecoration: toggleTextDecoration(textDecoration, 'line-through')}
 		}
 	];
 

@@ -3,8 +3,17 @@ import {ListenerType} from 'types';
 import {getMethodName} from 'utils/common';
 
 export class DomListener {
+	/**
+	 * DOM элемент
+	 */
 	$root: Dom;
+	/**
+	 * Слушатели
+	 */
 	listeners: ListenerType[];
+	/**
+	 * Имя
+	 */
 	name: string;
 
 	constructor ($root: Dom, listeners: ListenerType[] = []) {
@@ -17,7 +26,11 @@ export class DomListener {
 		this.name = '';
 	}
 
-	initDOMListeners () {
+	/**
+	 * Инициализирует DOM слушателей
+	 * @returns {void}
+	 */
+	initDOMListeners (): void {
 		this.listeners.forEach(listener => {
 			const method = getMethodName(listener) as keyof this;
 
@@ -36,7 +49,11 @@ export class DomListener {
 		});
 	}
 
-	removeDOMListeners () {
+	/**
+	 * Удаляет DOM слушателей
+	 * @returns {void}
+	 */
+	removeDOMListeners (): void {
 		this.listeners.forEach(listener => {
 			const method = getMethodName(listener) as keyof this;
 

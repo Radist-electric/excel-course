@@ -1,29 +1,67 @@
-import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TEXT, CHANGE_TITLE, TABLE_RESIZE} from 'redux/actionTypes';
+import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TEXT, CHANGE_TITLE, TABLE_RESIZE, UPDATE_LAST_OPENED} from 'redux/actionTypes';
+import {Action} from 'redux/types';
 
-// Action Creator
-const changeText = (data: any) => ({
+/**
+ * Action Creators
+ */
+
+/**
+ * Создаёт действие для изменения текста
+ * @param {any} data - данные действия
+ * @returns {Action} действие
+ */
+const changeText = (data: any): Action => ({
 	data,
 	type: CHANGE_TEXT
 });
 
-const tableResize = (data: any) => ({
+/**
+ * Создаёт действие для изменения размера таблицы
+ * @param {any} data - данные действия
+ * @returns {Action} действие
+ */
+const tableResize = (data: any): Action => ({
 	data,
 	type: TABLE_RESIZE
 });
 
-const changeStyles = (data: any) => ({
+/**
+ * Создаёт действие для изменения стилей
+ * @param {any} data - данные действия
+ * @returns {Action} действие
+ */
+const changeStyles = (data: any): Action => ({
 	data,
 	type: CHANGE_STYLES
 });
 
-const changeTitle = (data: any) => ({
+/**
+ * Создаёт действие для изменения заголовка
+ * @param {any} data - данные действия
+ * @returns {Action} действие
+ */
+const changeTitle = (data: any): Action => ({
 	data,
 	type: CHANGE_TITLE
 });
 
-const applyStyle = (data: any) => ({
+/**
+ * Создаёт действие для применения стилей
+ * @param {any} data - данные действия
+ * @returns {Action} действие
+ */
+const applyStyle = (data: any): Action => ({
 	data,
 	type: APPLY_STYLE
+});
+
+/**
+ * Создаёт действие для обновления времени последнего открытия
+ * @returns {Action} действие
+ */
+const updateLastOpened = (): Action => ({
+	data: Date.now(),
+	type: UPDATE_LAST_OPENED
 });
 
 export {
@@ -31,5 +69,6 @@ export {
 	changeText,
 	changeStyles,
 	changeTitle,
-	tableResize
+	tableResize,
+	updateLastOpened
 };

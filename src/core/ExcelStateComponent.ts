@@ -3,6 +3,9 @@ import {ExcelComponent} from 'core/ExcelComponent';
 import {OptionsType} from 'core/types';
 
 export class ExcelStateComponent extends ExcelComponent {
+	/**
+	 * Состояние компонента
+	 */
 	state: Record<string, any> = {};
 
 	// eslint-disable-next-line no-useless-constructor
@@ -10,6 +13,10 @@ export class ExcelStateComponent extends ExcelComponent {
 		super($root, options);
 	}
 
+	/**
+	 * Возвращает шаблон компонента
+	 * @returns {string} шаблон компонента
+	 */
 	get template (): string {
 		return JSON.stringify(this.state, null, 2);
 	}

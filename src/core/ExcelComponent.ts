@@ -7,6 +7,7 @@ import {VoidFuncWithArgs} from 'types';
 
 export class ExcelComponent extends DomListener {
 	emitter: Emitter;
+	params?: string;
 	store: Store<State, Action>;
 	storeSub: {unsubscribe: () => void} | null;
 	subscribe: string[];
@@ -20,6 +21,7 @@ export class ExcelComponent extends DomListener {
 
 		this.emitter = options.emitter;
 		this.name = options.name || '';
+		this.params = options.params;
 		this.store = options.store;
 		this.storeSub = null;
 		this.subscribe = options.subscribe || [];
@@ -63,11 +65,21 @@ export class ExcelComponent extends DomListener {
 		this.unsubscribers.push(unsubscribe);
 	}
 
-	$dispatch (action: Action) {
+	/**
+	 * Вызывает действие
+	 * @param {Action} action - действие
+	 * @returns {void}
+	 */
+	$dispatch (action: Action): void {
 		this.store.dispatch(action);
 	}
 
-	$subscribe (fn: (state: State) => void) {
+	/**
+	 * Подписывается на изменения состояния
+	 * @param {Function} fn - функция, вызываемая при изменении состояния
+	 * @returns {void}
+	 */
+	$subscribe (fn: (state: State) => void): void {
 		this.storeSub = this.store.subscribe(fn);
 	}
 

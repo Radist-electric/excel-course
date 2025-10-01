@@ -23,17 +23,31 @@ export class Toolbar extends ExcelStateComponent {
 		return createToolbar(this.state);
 	}
 
-	toHTML () {
+	/**
+	 * Возвращает HTML разметку тулбара
+	 * @returns {string} HTML разметка тулбара
+	 */
+	toHTML (): string {
 		return this.template;
 	}
 
-	storeChanged (changes: Partial<State>) {
+	/**
+	 * Обрабатывает изменения состояния
+	 * @param {Partial<State>} changes - изменения состояния
+	 * @returns {void}
+	 */
+	storeChanged (changes: Partial<State>): void {
 		if (changes.currentStyles) {
 			this.setState(changes.currentStyles);
 		}
 	}
 
-	onClick (event: Event) {
+	/**
+	 * Обрабатывает клик на тулбаре
+	 * @param {Event} event - событие клика
+	 * @returns {void}
+	 */
+	onClick (event: Event): void {
 		const target = event.target as HTMLElement;
 		const $target = $(target);
 

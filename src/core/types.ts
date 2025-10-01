@@ -6,6 +6,7 @@ export type OptionsType = {
 	emitter: Emitter,
 	listeners?: ListenerType[],
 	name?: string,
+	params?: string,
 	store: Store<State, Action>,
 	subscribe?: string[]
 };

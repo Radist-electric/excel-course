@@ -10,6 +10,10 @@ export class Dom {
 			: elementOrSelector;
 	}
 
+	/**
+	 * Возвращает данные элемента
+	 * @returns {DOMStringMap} данные элемента
+	 */
 	get data (): DOMStringMap {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
@@ -19,6 +23,11 @@ export class Dom {
 		return {};
 	}
 
+	/**
+	 * Устанавливает HTML-код элемента
+	 * @param {Element | string} html - HTML-код элемента
+	 * @returns {string | this} HTML-код элемента или this
+	 */
 	html (html: Element | string): string | this {
 		if (!this.$el || !(this.$el instanceof Element)) {
 			return this;
@@ -32,7 +41,12 @@ export class Dom {
 		return this.$el.outerHTML.trim();
 	}
 
-	text (text?: Dom | string) {
+	/**
+	 * Устанавливает текст элемента
+	 * @param {Dom | string} text - текст элемента
+	 * @returns {string | this} текст элемента или this
+	 */
+	text (text?: Dom | string): string | this {
 		if (!this.$el) {
 			return this;
 		}
@@ -47,9 +61,17 @@ export class Dom {
 			return inputElement.value.trim();
 		}
 
-		return this.$el.textContent?.trim();
+		if (this.$el.textContent) {
+			return this.$el.textContent.trim();
+		}
+
+		return this;
 	}
 
+	/**
+	 * Устанавливает фокус на элемент
+	 * @returns {this} this
+	 */
 	focus (): this {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
@@ -71,11 +93,21 @@ export class Dom {
 		return this;
 	}
 
+	/**
+	 * Очищает элемент
+	 * @returns {this} this
+	 */
 	clear (): this {
 		this.html('');
 		return this;
 	}
 
+	/**
+	 * Устанавливает или получает атрибут элемента
+	 * @param {string} name - имя атрибута
+	 * @param {string} value - значение атрибута
+	 * @returns {string | this} значение атрибута или this
+	 */
 	attr (name: string, value?: string): string | this {
 		if (!this.$el) {
 			return this;
@@ -89,6 +121,12 @@ export class Dom {
 		return this.$el.getAttribute(name) || '';
 	}
 
+	/**
+	 * Добавляет обработчик события
+	 * @param {string} eventType - тип события
+	 * @param {VoidFunc} callback - функция обработчика
+	 * @returns {this} this
+	 */
 	on (eventType: string, callback: VoidFunc): this {
 		if (this.$el) {
 			this.$el.addEventListener(eventType, callback);
@@ -97,6 +135,12 @@ export class Dom {
 		return this;
 	}
 
+	/**
+	 * Удаляет обработчик события
+	 * @param {string} eventType - тип события
+	 * @param {VoidFunc} callback - функция обработчика
+	 * @returns {this} this
+	 */
 	off (eventType: string, callback: VoidFunc): this {
 		if (this.$el) {
 			this.$el.removeEventListener(eventType, callback);
@@ -105,10 +149,18 @@ export class Dom {
 		return this;
 	}
 
+	/**
+	 * Возвращает идентификатор элемента
+	 * @returns {string} идентификатор элемента
+	 */
 	id (): string {
 		return this.data.id || '';
 	}
 
+	/**
+	 * Возвращает идентификатор элемента в виде объекта
+	 * @returns {TableCellId} идентификатор элемента в виде объекта
+	 */
 	idAsObject (): TableCellId {
 		const parsed = this.id().split(':');
 
@@ -118,6 +170,11 @@ export class Dom {
 		};
 	}
 
+	/**
+	 * Добавляет элемент в текущий элемент
+	 * @param {Dom | Element} node - элемент для добавления
+	 * @returns {this} this
+	 */
 	append (node: Dom | Element): this {
 		const currentNode = node instanceof Dom ? node.$el : node;
 
@@ -134,15 +191,29 @@ export class Dom {
 		return this;
 	}
 
+	/**
+	 * Возвращает ближайший элемент, соответствующий селектору
+	 * @param {string} selector - селектор
+	 * @returns {Dom | null} ближайший элемент, соответствующий селектору
+	 */
 	closest (selector: string): Dom | null {
 		const closestElement = this.$el ? this.$el.closest(selector) : null;
 		return closestElement ? $(closestElement) : null;
 	}
 
+	/**
+	 * Возвращает координаты элемента
+	 * @returns {DOMRect | null} координаты элемента
+	 */
 	getCoords (): DOMRect | null {
 		return this.$el ? this.$el.getBoundingClientRect() : null;
 	}
 
+	/**
+	 * Возвращает первый элемент, соответствующий селектору
+	 * @param {string} selector - селектор
+	 * @returns {Dom | null} первый элемент, соответствующий селектору
+	 */
 	find (selector: string): Dom | null {
 		if (this.$el) {
 			const foundEl = this.$el.querySelector(selector);
@@ -152,11 +223,21 @@ export class Dom {
 		return null;
 	}
 
+	/**
+	 * Возвращает все элементы, соответствующие селектору
+	 * @param {string} selector - селектор
+	 * @returns {HTMLElement[]} все элементы, соответствующие селектору
+	 */
 	findAll (selector: string): HTMLElement[] {
 		return this.$el ? Array.from(this.$el.querySelectorAll(selector)) as HTMLElement[] : [];
 	}
 
-	css (styles: Record<string, number | string | null> = {}) {
+	/**
+	 * Устанавливает стили элемента
+	 * @param {Record<string, number | string | null>} styles - стили элемента
+	 * @returns {void}
+	 */
+	css (styles: Record<string, number | string | null> = {}): void {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 
@@ -175,6 +256,11 @@ export class Dom {
 		}
 	}
 
+	/**
+	 * Возвращает стили элемента
+	 * @param {string[]} styles - стили элемента
+	 * @returns {Record<string, string>} стили элемента
+	 */
 	getStyles (styles: string[] = []): Record<string, string> {
 		if (!this.$el) {
 			return {};
@@ -188,6 +274,11 @@ export class Dom {
 		}, {} as Record<string, string>);
 	}
 
+	/**
+	 * Добавляет класс элементу
+	 * @param {string} className - класс
+	 * @returns {this} this
+	 */
 	addClass (className: string): this {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
@@ -198,6 +289,11 @@ export class Dom {
 		return this;
 	}
 
+	/**
+	 * Удаляет класс у элемента
+	 * @param {string} className - класс
+	 * @returns {this} this
+	 */
 	removeClass (className: string): this {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
@@ -209,9 +305,20 @@ export class Dom {
 	}
 }
 
+/**
+ * Возвращает элемент по селектору
+ * @param {Element | string} selector - селектор
+ * @returns {Dom} элемент
+ */
 export const $ = (selector: Element | string): Dom => new Dom(selector);
 
-$.create = (tagName: string, classNames = ''): Dom => {
+/**
+ * Создаёт элемент
+ * @param {string} tagName - тег элемента
+ * @param {string} classNames - классы элемента
+ * @returns {Dom} элемент
+ */
+$.create = (tagName: string, classNames: string = ''): Dom => {
 	const el = document.createElement(tagName);
 
 	if (classNames) {

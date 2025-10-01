@@ -1,9 +1,11 @@
 import {$, Dom} from 'core/Dom';
-import {ActiveRoute} from 'core/routes/ActiveRoute';
-import {RoutesType} from 'types';
+// import {ActiveRoute} from 'core/routes/ActiveRoute';
+import {PageType, RoutesType} from 'types';
+
 export class Router {
 	$placeholder: Dom;
 	routes: RoutesType;
+	page: PageType | null = null;
 
 	constructor (selector: string, routes: RoutesType) {
 		if (!selector) {
@@ -22,10 +24,12 @@ export class Router {
 	}
 
 	changePageHandler () {
-		console.log(ActiveRoute.path);
-		console.log('param', ActiveRoute.param);
+		const Page = this.routes.excel;
+		const page = new Page();
 
-		this.$placeholder.html('<h1>' + ActiveRoute.path + '</h1>');
+		this.$placeholder.append(page.getRoot());
+
+		page.afterRender();
 	}
 
 	destroy () {

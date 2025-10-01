@@ -44,12 +44,9 @@ export class Excel {
 		return $root;
 	}
 
-	render (): void {
-		if (this.$el) {
-			this.$el.append(this.getRoot());
-			this.subscriber.subscribeComponents(this.components);
-			this.components.forEach(component => component.init());
-		}
+	init () {
+		this.subscriber.subscribeComponents(this.components);
+		this.components.forEach(component => component.init());
 	}
 
 	destroy (): void {

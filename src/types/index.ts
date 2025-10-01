@@ -2,6 +2,7 @@ import {Formula} from 'components/formula/Formula';
 import {Header} from 'components/header/Header';
 import {Table} from 'components/table/Table';
 import {Toolbar} from 'components/toolbar/Toolbar';
+import {Dom} from 'core/Dom';
 import {LISTENERS} from 'data/constants';
 
 export type ComponentType = typeof Formula | typeof Header | typeof Table | typeof Toolbar;
@@ -23,4 +24,11 @@ export type RouteType = {
 	path: string
 };
 
-export type RoutesType = Record<string, RouteType>;
+export type RoutesType = Record<string, any>;
+
+export type PageType = {
+	afterRender: () => void,
+	destroy: () => void,
+	getRoot: () => Dom,
+	render: () => void
+};

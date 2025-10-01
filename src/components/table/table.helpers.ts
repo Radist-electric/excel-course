@@ -1,6 +1,6 @@
 import {Dom} from 'core/Dom';
-import {getRange} from 'utils/common';
 import {TableCellId} from 'types';
+import {getRange} from 'utils/common';
 
 /**
  * Проверяет, можно ли выполнять изменение размера ячейки

@@ -1,4 +1,5 @@
 import {TableCellId, VoidFunc} from 'types';
+import {convertCamelToDashCase} from 'utils/common';
 
 export class Dom {
 	$el: Element | null;
@@ -75,6 +76,19 @@ export class Dom {
 		return this;
 	}
 
+	attr (name: string, value?: string): string | this {
+		if (!this.$el) {
+			return this;
+		}
+
+		if (value !== undefined) {
+			this.$el.setAttribute(name, value);
+			return this;
+		}
+
+		return this.$el.getAttribute(name) || '';
+	}
+
 	on (eventType: string, callback: VoidFunc): this {
 		if (this.$el) {
 			this.$el.addEventListener(eventType, callback);
@@ -142,20 +156,36 @@ export class Dom {
 		return this.$el ? Array.from(this.$el.querySelectorAll(selector)) as HTMLElement[] : [];
 	}
 
-	css (styles: Record<string, string | number | null> = {}) {
+	css (styles: Record<string, number | string | null> = {}) {
 		if (this.$el) {
 			const element = this.$el as HTMLElement;
 
 			Object
 				.keys(styles)
 				.forEach(key => {
-					if (styles[key] === null) {
-						element.style.removeProperty(key);
+					const value = styles[key];
+					const cssKey = convertCamelToDashCase(key);
+
+					if (value === null) {
+						element.style.removeProperty(cssKey);
 					} else {
-						element.style.setProperty(key, String(styles[key]));
+						element.style.setProperty(cssKey, String(value));
 					}
 				});
 		}
+	}
+
+	getStyles (styles: string[] = []): Record<string, string> {
+		if (!this.$el) {
+			return {};
+		}
+
+		const element = this.$el as HTMLElement;
+
+		return styles.reduce((res, style) => {
+			res[style] = element.style[style as any];
+			return res;
+		}, {} as Record<string, string>);
 	}
 
 	addClass (className: string): this {
@@ -179,7 +209,7 @@ export class Dom {
 	}
 }
 
-export const $ = (selector: string | Element): Dom => new Dom(selector);
+export const $ = (selector: Element | string): Dom => new Dom(selector);
 
 $.create = (tagName: string, classNames = ''): Dom => {
 	const el = document.createElement(tagName);

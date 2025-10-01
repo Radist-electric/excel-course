@@ -1,10 +1,10 @@
 import {Formula} from 'components/formula/Formula';
 import {Header} from 'components/header/Header';
-import {LISTENERS} from 'data/constants';
 import {Table} from 'components/table/Table';
 import {Toolbar} from 'components/toolbar/Toolbar';
+import {LISTENERS} from 'data/constants';
 
-export type ComponentType = typeof Header | typeof Formula | typeof Table | typeof Toolbar;
+export type ComponentType = typeof Formula | typeof Header | typeof Table | typeof Toolbar;
 export type ComponentsType = ComponentType[];
 export type ComponentInstanceType = InstanceType<ComponentType>[];
 

@@ -3,6 +3,8 @@ import {Header} from 'components/header/Header';
 import {Table} from 'components/table/Table';
 import {Toolbar} from 'components/toolbar/Toolbar';
 
+export const APP_NAME = 'excel-application';
+
 export const COMPONENTS = [Header, Toolbar, Formula, Table];
 
 export const FORMULA_LISTENERS = ['click', 'input', 'keydown'];
@@ -20,5 +22,16 @@ export const CODES = {
 	Z: 90
 };
 
+export const COL_DEFAULT_WIDTH = 120;
 export const COL_MIN_WIDTH = 40;
+export const ROW_DEFAULT_HEIGHT = 24;
 export const ROW_MIN_HEIGHT = 24;
+
+export const DEFAULT_STYLES = {
+	fontStyle: 'normal',
+	fontWeight: 'normal',
+	textAlign: 'left',
+	textDecoration: 'none'
+};
+
+export const DEFAULT_TITLE = 'Новая таблица';

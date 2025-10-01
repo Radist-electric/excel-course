@@ -1,6 +1,5 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -28,10 +27,6 @@ module.exports = (env, argv) => {
 			})
 		];
 
-		if (isDev) {
-			base.push(new ESLintPlugin());
-		}
-
 		return base;
 	};
 
@@ -40,7 +35,7 @@ module.exports = (env, argv) => {
 		devServer: {
 			hot: true,
 			open: true,
-			port: '3000',
+			port: '3001',
 			watchFiles: './'
 		},
 		devtool: isDev ? 'source-map' : false,
@@ -82,6 +77,10 @@ module.exports = (env, argv) => {
 			filename: filename('js'),
 			path: path.resolve(__dirname, 'build')
 		},
+		performance: {
+			maxAssetSize: 1024000,
+			maxEntrypointSize: 256000
+		},
 		plugins: plugins(),
 		resolve: {
 			alias: {
@@ -89,6 +88,7 @@ module.exports = (env, argv) => {
 				'core': path.resolve(__dirname, 'src', 'core'),
 				'data': path.resolve(__dirname, 'src', 'data'),
 				'helpers': path.resolve(__dirname, 'src', 'helpers'),
+				'redux': path.resolve(__dirname, 'src', 'redux'),
 				'scss': path.resolve(__dirname, 'src', 'scss'),
 				'types': path.resolve(__dirname, 'src', 'types'),
 				'utils': path.resolve(__dirname, 'src', 'utils')

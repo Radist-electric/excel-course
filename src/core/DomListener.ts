@@ -1,6 +1,6 @@
 import {Dom} from 'core/Dom';
-import {getMethodName} from 'utils/common';
 import {ListenerType} from 'types';
+import {getMethodName} from 'utils/common';
 
 export class DomListener {
 	$root: Dom;

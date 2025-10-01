@@ -1,47 +1,46 @@
-import {Dom} from 'core/Dom';
-import {ExcelComponent} from 'core/ExcelComponent';
+import {createToolbar} from 'components/toolbar/toolbar.template';
+import {$, Dom} from 'core/Dom';
+import {ExcelStateComponent} from 'core/ExcelStateComponent';
 import {OptionsType} from 'core/types';
+import {DEFAULT_STYLES} from 'data/constants';
+import {State} from 'redux/types';
 
-export class Toolbar extends ExcelComponent {
+export class Toolbar extends ExcelStateComponent {
 	static classNames = 'excel__toolbar';
 
 	constructor ($root: Dom, options: OptionsType) {
 		super($root, {
 			listeners: ['click'],
 			name: 'Toolbar',
+			subscribe: ['currentStyles'],
 			...options
 		});
+
+		this.initState(DEFAULT_STYLES);
+	}
+
+	get template (): string {
+		return createToolbar(this.state);
 	}
 
 	toHTML () {
-		return `
-			<div class="button">
-				<i class="material-icons">format_align_left</i>
-			</div>
+		return this.template;
+	}
 
-			<div class="button">
-				<i class="material-icons">format_align_center</i>
-			</div>
-
-			<div class="button">
-				<i class="material-icons">format_align_right</i>
-			</div>
-
-			<div class="button">
-				<i class="material-icons">format_bold</i>
-			</div>
-
-			<div class="button">
-				<i class="material-icons">format_italic</i>
-			</div>
-
-			<div class="button">
-				<i class="material-icons">format_underlined</i>
-			</div>
-		`;
+	storeChanged (changes: Partial<State>) {
+		if (changes.currentStyles) {
+			this.setState(changes.currentStyles);
+		}
 	}
 
 	onClick (event: Event) {
-		console.log(event.target);
+		const target = event.target as HTMLElement;
+		const $target = $(target);
+
+		if ($target.data.type === 'button' && $target.data.value) {
+			const value = JSON.parse($target.data.value);
+
+			this.$emit('toolbar:applyStyle', value);
+		}
 	}
 }

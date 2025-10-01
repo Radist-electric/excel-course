@@ -1,7 +1,8 @@
 import {$, Dom} from 'core/Dom';
 import {ExcelComponent} from 'core/ExcelComponent';
-import {FORMULA_LISTENERS} from 'data/constants';
 import {OptionsType} from 'core/types';
+import {FORMULA_LISTENERS} from 'data/constants';
+import {State} from 'redux/types';
 
 export class Formula extends ExcelComponent {
 	static classNames = 'excel__formula';
@@ -14,6 +15,7 @@ export class Formula extends ExcelComponent {
 			{
 				listeners: FORMULA_LISTENERS,
 				name: 'Formula',
+				subscribe: ['currentText'],
 				...options
 			}
 		);
@@ -35,15 +37,15 @@ export class Formula extends ExcelComponent {
 
 		this.$on('table:select', ($cell: Dom) => {
 			if (this.$formula) {
-				this.$formula.text($cell.text());
+				this.$formula.text($cell.data.value || '');
 			}
 		});
+	}
 
-		this.$on('table:input', ($cell: Dom) => {
-			if (this.$formula) {
-				this.$formula.text($cell.text());
-			}
-		});
+	storeChanged (changes: Partial<State>) {
+		if (this.$formula && changes.currentText !== undefined) {
+			this.$formula.text(changes.currentText);
+		}
 	}
 
 	onInput (event: InputEvent) {

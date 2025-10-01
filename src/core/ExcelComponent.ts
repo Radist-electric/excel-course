@@ -2,22 +2,27 @@ import {Dom} from 'core/Dom';
 import {DomListener} from 'core/DomListener';
 import {Emitter} from 'core/Emitter';
 import {OptionsType} from 'core/types';
+import {Action, State, Store} from 'redux/types';
 import {VoidFuncWithArgs} from 'types';
 
 export class ExcelComponent extends DomListener {
 	emitter: Emitter;
+	store: Store<State, Action>;
+	storeSub: {unsubscribe: () => void} | null;
+	subscribe: string[];
 	unsubscribers: VoidFuncWithArgs[];
 
 	constructor (
 		$root: Dom,
-		options: OptionsType = {
-			emitter: new Emitter()
-		}
+		options: OptionsType
 	) {
 		super($root, options.listeners);
 
 		this.emitter = options.emitter;
 		this.name = options.name || '';
+		this.store = options.store;
+		this.storeSub = null;
+		this.subscribe = options.subscribe || [];
 		this.unsubscribers = [];
 		this.prepare();
 	}
@@ -58,6 +63,31 @@ export class ExcelComponent extends DomListener {
 		this.unsubscribers.push(unsubscribe);
 	}
 
+	$dispatch (action: Action) {
+		this.store.dispatch(action);
+	}
+
+	$subscribe (fn: (state: State) => void) {
+		this.storeSub = this.store.subscribe(fn);
+	}
+
+	/**
+	 * Проверяет, подписан ли компонент на конкретное поле состояния
+	 * @param {string} key - ключ поля состояния
+	 * @returns {boolean} подписан ли компонент на это поле
+	 */
+	isWatching (key: string): boolean {
+		return this.subscribe.includes(key);
+	}
+
+	/**
+	 * Обрабатывает изменения состояния. Переопределяется в наследниках.
+	 * @param {Partial<State>} changes - объект с изменениями состояния
+	 * @returns {void}
+	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	storeChanged (changes: Partial<State>): void {}
+
 	/**
 	 * Инициализирует компонент. Добавляет DOM слушателей.
 	 * @returns {void}
@@ -73,5 +103,6 @@ export class ExcelComponent extends DomListener {
 	destroy (): void {
 		this.removeDOMListeners();
 		this.unsubscribers.forEach(unsubscribe => unsubscribe());
+		this.storeSub?.unsubscribe();
 	}
 }

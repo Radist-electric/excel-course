@@ -26,6 +26,7 @@ export class ExcelPage extends Page {
 		this.excel = new Excel({
 			options: {
 				components: COMPONENTS,
+				params,
 				store
 			},
 			selector: '#app'

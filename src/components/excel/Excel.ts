@@ -1,4 +1,4 @@
-import {IProps} from './types';
+import {ExcelOptions, IProps} from './types';
 import {$, Dom} from 'core/Dom';
 import {Emitter} from 'core/Emitter';
 import {StoreSubscriber} from 'core/StoreSubscriber';
@@ -10,6 +10,7 @@ export class Excel {
 	Components: ComponentsType; // массив классов компонентов
 	components: ComponentInstanceType; // массив экземпляров классов компонентов
 	emitter: Emitter;
+	options: ExcelOptions;
 	store: Store<State, Action>;
 	subscriber: StoreSubscriber;
 
@@ -20,6 +21,7 @@ export class Excel {
 		this.Components = options.components || [];
 		this.components = [];
 		this.emitter = new Emitter();
+		this.options = options;
 		this.store = options.store;
 		this.subscriber = new StoreSubscriber(this.store);
 	}
@@ -28,6 +30,7 @@ export class Excel {
 		const $root = $.create('div', 'excel');
 		const componentOptions = {
 			emitter: this.emitter,
+			params: this.options.params,
 			store: this.store
 		};
 

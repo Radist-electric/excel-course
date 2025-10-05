@@ -3,6 +3,7 @@ import {ComponentsType} from 'types';
 
 export type ExcelOptions = {
 	components: ComponentsType,
+	params?: string,
 	store: Store<State, Action>
 };
 

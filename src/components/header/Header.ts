@@ -12,7 +12,7 @@ export class Header extends ExcelComponent {
 		super(
 			$root,
 			{
-				listeners: ['input'],
+				listeners: ['input', 'click'],
 				name: 'Header',
 				...options
 			}
@@ -21,6 +21,7 @@ export class Header extends ExcelComponent {
 
 	prepare () {
 		this.onInput = debounce(this.onInput.bind(this), 300);
+		this.onClick = this.onClick.bind(this);
 	}
 
 	toHTML () {
@@ -30,11 +31,11 @@ export class Header extends ExcelComponent {
 
 			<div>
 
-				<div class="button">
+				<div class="button" data-button="delete">
 					<i class="material-icons">delete</i>
 				</div>
 
-				<div class="button">
+				<div class="button" data-button="exit">
 					<i class="material-icons">exit_to_app</i>
 				</div>
 
@@ -47,5 +48,32 @@ export class Header extends ExcelComponent {
 		const $target = $(target);
 
 		this.$dispatch(changeTitle($target.text()));
+	}
+
+	onClick (event: Event) {
+		const target = event.target as HTMLElement;
+		const $target = $(target);
+
+		if ($target.closest('[data-button="delete"]')) {
+			this.deleteTable();
+		}
+
+		if ($target.closest('[data-button="exit"]')) {
+			this.exitToDashboard();
+		}
+	}
+
+	deleteTable () {
+		const params = this.params;
+
+		if (params) {
+			localStorage.removeItem(`excel:${params}`);
+		}
+
+		this.exitToDashboard();
+	}
+
+	exitToDashboard () {
+		window.location.hash = '';
 	}
 }

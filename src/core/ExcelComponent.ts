@@ -7,6 +7,7 @@ import {VoidFuncWithArgs} from 'types';
 
 export class ExcelComponent extends DomListener {
 	emitter: Emitter;
+	params?: string;
 	store: Store<State, Action>;
 	storeSub: {unsubscribe: () => void} | null;
 	subscribe: string[];
@@ -20,6 +21,7 @@ export class ExcelComponent extends DomListener {
 
 		this.emitter = options.emitter;
 		this.name = options.name || '';
+		this.params = options.params;
 		this.store = options.store;
 		this.storeSub = null;
 		this.subscribe = options.subscribe || [];

@@ -7,7 +7,6 @@ function toHTML (): string {
 	`;
 }
 
-// excel:1232112
 function getAllKeys (): string[] {
 	const keys: string[] = [];
 

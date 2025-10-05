@@ -127,6 +127,13 @@ export const toInlineStyles = (styles: Record<string, number | string> = {}): st
 	.join(';');
 
 /**
+ * Создает глубокую копию объекта
+ * @param {T} obj - объект для клонирования
+ * @returns {T} клонированный объект
+ */
+export const clone = <T>(obj: T): T => JSON.parse(JSON.stringify(obj));
+
+/**
  * Парсит значение ячейки, выполняя формулы если они начинаются с '='
  * @param {string} value - значение для парсинга
  * @returns {string | number} - результат парсинга или исходное значение
@@ -144,3 +151,10 @@ export const parse = (value: string = ''): number | string => {
 
 	return value;
 };
+
+/**
+ * Возвращает имя ключа для localStorage
+ * @param {string} param - параметр для ключа
+ * @returns {string} имя ключа для localStorage
+ */
+export const getStorageName = (param: string): string => 'excel:' + param;

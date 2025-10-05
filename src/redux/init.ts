@@ -1,6 +1,6 @@
-import {APP_NAME, DEFAULT_STYLES, DEFAULT_TITLE} from 'data/constants';
+import {DEFAULT_STYLES, DEFAULT_TITLE} from 'data/constants';
 import {State} from 'redux/types';
-import {storage} from 'utils/common';
+import {clone} from 'utils/common';
 
 export const defaultState: State = {
 	colState: {},
@@ -19,4 +19,6 @@ const normalize = (state: State): State => ({
 	currentText: ''
 });
 
-export const initialState: State = storage(APP_NAME) ? normalize(storage(APP_NAME)) : defaultState;
+export function normalizeInitialState (state: State | null): State {
+	return state ? normalize(state) : clone(defaultState);
+}

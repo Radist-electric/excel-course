@@ -8,6 +8,7 @@ export type State = {
 	currentStyles: Record<string, string>,
 	currentText: string,
 	dataState: DataState,
+	lastOpenedAt: number,
 	rowState: RowState,
 	stylesState: StylesState,
 	tableTitle: string,

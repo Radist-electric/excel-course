@@ -158,3 +158,31 @@ export const parse = (value: string = ''): number | string => {
  * @returns {string} имя ключа для localStorage
  */
 export const getStorageName = (param: string): string => 'excel:' + param;
+
+/**
+ * Возвращает время в формате HH:MM
+ * @param {Date} date - дата
+ * @returns {string} время в формате HH:MM
+ */
+export const getHHMMtime = (date: Date): string => date.toLocaleTimeString('ru-RU', {
+	hour: '2-digit',
+	minute: '2-digit'
+});
+
+/**
+ * Возвращает дату в формате DD.MM.YYYY
+ * @param {Date} date - дата
+ * @returns {string} дата в формате DD.MM.YYYY
+ */
+export const getDDMMYYYYDate = (date: Date): string => date.toLocaleDateString('ru-RU', {
+	day: '2-digit',
+	month: '2-digit',
+	year: 'numeric'
+});
+
+/**
+ * Возвращает дату и время в формате DD.MM.YYYY HH:MM
+ * @param {Date} date - дата
+ * @returns {string} дата и время в формате DD.MM.YYYY HH:MM
+ */
+export const getDDMMYYYYHHMMtime = (date: Date): string => getDDMMYYYYDate(date) + ' ' + getHHMMtime(date);

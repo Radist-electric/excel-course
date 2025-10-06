@@ -1,15 +1,23 @@
-import {storage} from 'utils/common';
+import {getDDMMYYYYHHMMtime, storage} from 'utils/common';
 
 function toHTML (key: string): string {
 	const [, id] = key.split(':');
 	const state = storage(key);
 	let date = '';
 
-	date = new Date(+id).toLocaleDateString();
+	if (state && state.lastOpenedAt) {
+		const lastOpened = new Date(state.lastOpenedAt);
+
+		date = getDDMMYYYYHHMMtime(lastOpened);
+	} else {
+		const currentTime = new Date();
+
+		date = getDDMMYYYYHHMMtime(currentTime);
+	}
 
 	return `
 		<li class="db__record">
-			<a href="#excel/${id}">${state.title || state.tableTitle}</a>
+			<a href="#excel/${id}">${state?.title || state?.tableTitle || 'Без названия'}</a>
 			<strong>${date}</strong>
 		</li>
 	`;

@@ -2,6 +2,7 @@ import {Excel} from 'components/excel/Excel';
 import {CreateStore as Store} from 'core/createStore';
 import {Page} from 'core/Page';
 import {COMPONENTS} from 'data/constants';
+import {updateLastOpened} from 'redux/actions';
 import {normalizeInitialState} from 'redux/init';
 import {rootReducer} from 'redux/rootReducer';
 import {debounce, getStorageName, storage} from 'utils/common';
@@ -15,6 +16,9 @@ export class ExcelPage extends Page {
 		const state = storage(getStorageName(params));
 		const initialState = normalizeInitialState(state);
 		const store = new Store(rootReducer, initialState);
+
+		// Обновляем время последнего открытия при загрузке страницы
+		store.dispatch(updateLastOpened());
 
 		const stateListener = debounce(state => {
 			console.log('App State: ', state);

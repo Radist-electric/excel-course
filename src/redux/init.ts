@@ -7,6 +7,7 @@ export const defaultState: State = {
 	currentStyles: DEFAULT_STYLES,
 	currentText: '',
 	dataState: {},
+	lastOpenedAt: Date.now(),
 	rowState: {},
 	stylesState: {},
 	tableTitle: 'My Table excel',

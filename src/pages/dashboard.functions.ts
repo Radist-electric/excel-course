@@ -1,23 +1,15 @@
+import {storage} from 'utils/common';
+
 function toHTML (key: string): string {
-	const [, param] = key.split(':');
-	const stateString = localStorage.getItem(key);
-	let title = 'Без названия';
+	const [, id] = key.split(':');
+	const state = storage(key);
 	let date = '';
 
-	if (stateString) {
-		try {
-			const state = JSON.parse(stateString);
-
-			title = state.title || state.tableTitle;
-			date = new Date(+param).toLocaleDateString();
-		} catch (e) {
-			console.error('Error parsing state for key:', key, e);
-		}
-	}
+	date = new Date(+id).toLocaleDateString();
 
 	return `
 		<li class="db__record">
-			<a href="#excel/${param}">${title}</a>
+			<a href="#excel/${id}">${state.title || state.tableTitle}</a>
 			<strong>${date}</strong>
 		</li>
 	`;

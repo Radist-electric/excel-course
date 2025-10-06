@@ -1,5 +1,6 @@
 import {$, Dom} from 'core/Dom';
 import {ExcelComponent} from 'core/ExcelComponent';
+import {ActiveRoute} from 'core/routes/ActiveRoute';
 import {OptionsType} from 'core/types';
 import {DEFAULT_TITLE} from 'data/constants';
 import {changeTitle} from 'redux/actions';
@@ -31,7 +32,7 @@ export class Header extends ExcelComponent {
 
 			<div>
 
-				<div class="button" data-button="delete">
+				<div class="button" data-button="remove">
 					<i class="material-icons">delete</i>
 				</div>
 
@@ -54,8 +55,8 @@ export class Header extends ExcelComponent {
 		const target = event.target as HTMLElement;
 		const $target = $(target);
 
-		if ($target.closest('[data-button="delete"]')) {
-			this.deleteTable();
+		if ($target.closest('[data-button="remove"]')) {
+			this.removeTable();
 		}
 
 		if ($target.closest('[data-button="exit"]')) {
@@ -63,17 +64,20 @@ export class Header extends ExcelComponent {
 		}
 	}
 
-	deleteTable () {
+	removeTable () {
 		const params = this.params;
 
 		if (params) {
-			localStorage.removeItem(`excel:${params}`);
-		}
+			const decision = confirm('Вы действительно хотите удалить эту таблицу?');
 
-		this.exitToDashboard();
+			if (decision) {
+				localStorage.removeItem('excel:' + ActiveRoute.param);
+				this.exitToDashboard();
+			}
+		}
 	}
 
 	exitToDashboard () {
-		window.location.hash = '';
+		ActiveRoute.navigate('');
 	}
 }

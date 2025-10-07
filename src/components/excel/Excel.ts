@@ -2,6 +2,7 @@ import {ExcelOptions, IProps} from './types';
 import {$, Dom} from 'core/Dom';
 import {Emitter} from 'core/Emitter';
 import {StoreSubscriber} from 'core/StoreSubscriber';
+import {updateLastOpened} from 'redux/actions';
 import {Action, State, Store} from 'redux/types';
 import {ComponentInstanceType, ComponentsType} from 'types';
 
@@ -48,6 +49,7 @@ export class Excel {
 	}
 
 	init () {
+		this.store.dispatch(updateLastOpened());
 		this.subscriber.subscribeComponents(this.components);
 		this.components.forEach(component => component.init());
 	}

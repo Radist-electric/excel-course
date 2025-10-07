@@ -1,5 +1,5 @@
 import {Action, State, Store} from 'redux/types';
-import {isEqual} from 'utils/common';
+import {isEqual, isProdMode} from 'utils/common';
 
 export class StoreSubscriber {
 	private store: Store<State, Action>;
@@ -29,6 +29,10 @@ export class StoreSubscriber {
 			});
 
 			this.prevState = this.store.getState();
+
+			if (isProdMode()) {
+				window.redux = this.prevState;
+			}
 		});
 	}
 

@@ -5,6 +5,7 @@ import {StoreSubscriber} from 'core/StoreSubscriber';
 import {updateLastOpened} from 'redux/actions';
 import {Action, State, Store} from 'redux/types';
 import {ComponentInstanceType, ComponentsType} from 'types';
+import {isProdMode, preventDefault} from 'utils/common';
 
 export class Excel {
 	$el: Dom;
@@ -49,6 +50,10 @@ export class Excel {
 	}
 
 	init () {
+		if (isProdMode()) {
+			document.addEventListener('contextmenu', preventDefault);
+		}
+
 		this.store.dispatch(updateLastOpened());
 		this.subscriber.subscribeComponents(this.components);
 		this.components.forEach(component => component.init());
@@ -57,5 +62,9 @@ export class Excel {
 	destroy (): void {
 		this.subscriber.unsubscribeFromStore();
 		this.components.forEach(component => component.destroy());
+
+		if (isProdMode()) {
+			document.removeEventListener('contextmenu', preventDefault);
+		}
 	}
 }

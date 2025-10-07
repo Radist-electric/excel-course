@@ -186,3 +186,24 @@ export const getDDMMYYYYDate = (date: Date): string => date.toLocaleDateString('
  * @returns {string} дата и время в формате DD.MM.YYYY HH:MM
  */
 export const getDDMMYYYYHHMMtime = (date: Date): string => getDDMMYYYYDate(date) + ' ' + getHHMMtime(date);
+
+/**
+ * Проверяет запущено ли приложение в режиме разработки.
+ * @return {boolean}
+ */
+export const isDevMode = (): boolean => process.env.NODE_ENV === 'development';
+
+/**
+ * Проверяет запущено ли приложение в продуктовом режиме
+ * @return {boolean}
+ */
+export const isProdMode = (): boolean => process.env.NODE_ENV === 'production';
+
+/**
+ * Предотвращает действие по умолчанию для события
+ * @param {Event} event - событие
+ * @returns {void}
+ */
+export const preventDefault = (event: Event): void => {
+	event.preventDefault();
+};

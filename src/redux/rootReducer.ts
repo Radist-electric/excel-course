@@ -4,8 +4,6 @@ import {Action, State} from 'redux/types';
 export function rootReducer (state: State, action: Action): State {
 	const {data, type} = action;
 
-	console.log('rootReducer data', data);
-
 	switch (type) {
 		case CHANGE_TEXT: {
 			return {

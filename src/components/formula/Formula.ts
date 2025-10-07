@@ -54,9 +54,7 @@ export class Formula extends ExcelComponent {
 		}
 	}
 
-	onClick () {
-		console.log('Formula: mouse click');
-	}
+	onClick () {}
 
 	onKeydown (event: KeyboardEvent) {
 		const keys = ['Enter', 'Tab'];

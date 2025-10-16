@@ -1,7 +1,7 @@
 import {Excel} from 'components/excel/Excel';
-import {CreateStore as Store} from 'core/createStore';
 import {Dom} from 'core/Dom';
 import {Page} from 'core/Page';
+import {CreateStore as Store} from 'core/store/createStore';
 import {COMPONENTS} from 'data/constants';
 import {normalizeInitialState} from 'redux/init';
 import {rootReducer} from 'redux/rootReducer';

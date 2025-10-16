@@ -7,16 +7,44 @@
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
-		"module": "commonjs",
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
 		"outDir": "./build",
+		"paths": {
+			"components": [
+				"components"
+			],
+			"core": [
+				"core"
+			],
+			"data": [
+				"data"
+			],
+			"helpers": [
+				"helpers"
+			],
+			"redux": [
+				"redux"
+			],
+			"styles": [
+				"styles"
+			],
+			"types": [
+				"types"
+			],
+			"utils": [
+				"utils"
+			]
+		},
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
 		"target": "ES6",
+		"isolatedModules": true,
 		"typeRoots": [
+			"jest",
 			"node_modules/@types",
 			"types.d.ts"
 		],

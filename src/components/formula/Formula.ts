@@ -7,6 +7,9 @@ import {State} from 'redux/types';
 export class Formula extends ExcelComponent {
 	static classNames = 'excel__formula';
 
+	/**
+	 * DOM элемент формулы
+	 */
 	$formula: Dom | null;
 
 	constructor ($root: Dom, options: OptionsType) {
@@ -23,14 +26,22 @@ export class Formula extends ExcelComponent {
 		this.$formula = null;
 	}
 
-	toHTML () {
+	/**
+	 * Возвращает HTML разметку формулы
+	 * @returns {string} HTML разметка формулы
+	 */
+	toHTML (): string {
 		return `
 			<div class="info">fx</div>
 			<div class="input" contenteditable spellcheck="false" data-id="formula"></div>
 		`;
 	}
 
-	init () {
+	/**
+	 * Инициализирует формулу
+	 * @returns {void}
+	 */
+	init (): void {
 		super.init();
 
 		this.$formula = this.$root.find('[data-id="formula"]');
@@ -42,23 +53,40 @@ export class Formula extends ExcelComponent {
 		});
 	}
 
-	storeChanged (changes: Partial<State>) {
+	/**
+	 * Обрабатывает изменения состояния.
+	 * @param {Partial<State>} changes - изменения
+	 * @returns {void}
+	 */
+	storeChanged (changes: Partial<State>): void {
 		if (this.$formula && changes.currentText !== undefined) {
 			this.$formula.text(changes.currentText);
 		}
 	}
 
-	onInput (event: InputEvent) {
+	/**
+	 * Обрабатывает ввод в формулу
+	 * @param {InputEvent} event - событие ввода
+	 * @returns {void}
+	 */
+	onInput (event: InputEvent): void {
 		if (event.target) {
 			this.$emit('formula:input', $(event.target as HTMLElement).text());
 		}
 	}
 
-	onClick () {
-		console.log('Formula: mouse click');
-	}
+	/**
+	 * Обрабатывает клик в формулу
+	 * @returns {void}
+	 */
+	onClick (): void {}
 
-	onKeydown (event: KeyboardEvent) {
+	/**
+	 * Обрабатывает нажатие клавиши в формулу
+	 * @param {KeyboardEvent} event - событие нажатия клавиши
+	 * @returns {void}
+	 */
+	onKeydown (event: KeyboardEvent): void {
 		const keys = ['Enter', 'Tab'];
 
 		if (keys.includes(event.key) && !event.shiftKey) {

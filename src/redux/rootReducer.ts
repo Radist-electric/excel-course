@@ -1,10 +1,14 @@
-import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TEXT, CHANGE_TITLE, TABLE_RESIZE} from './actionTypes';
+import {APPLY_STYLE, CHANGE_STYLES, CHANGE_TEXT, CHANGE_TITLE, TABLE_RESIZE, UPDATE_LAST_OPENED} from './actionTypes';
 import {Action, State} from 'redux/types';
 
+/**
+ * Корневой редюсер
+ * @param {State} state - состояние
+ * @param {Action} action - действие
+ * @returns {State} новое состояние
+ */
 export function rootReducer (state: State, action: Action): State {
 	const {data, type} = action;
-
-	console.log('rootReducer data', data);
 
 	switch (type) {
 		case CHANGE_TEXT: {
@@ -63,6 +67,12 @@ export function rootReducer (state: State, action: Action): State {
 				...state,
 				currentStyles: {...state.currentStyles, ...data.value},
 				[field]: val
+			};
+		}
+		case UPDATE_LAST_OPENED: {
+			return {
+				...state,
+				lastOpenedAt: data
 			};
 		}
 		default: return state;

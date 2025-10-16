@@ -1,9 +1,18 @@
 import {Action, State, Store} from 'redux/types';
-import {isEqual} from 'utils/common';
+import {isEqual, isProdMode} from 'utils/common';
 
 export class StoreSubscriber {
+	/**
+	 * Хранилище
+	 */
 	private store: Store<State, Action>;
+	/**
+	 * Подписка
+	 */
 	private sub: {unsubscribe: () => void} | null;
+	/**
+	 * Предыдущее состояние
+	 */
 	private prevState: State;
 
 	constructor (store: Store<State, Action>) {
@@ -12,7 +21,12 @@ export class StoreSubscriber {
 		this.prevState = {} as State;
 	}
 
-	subscribeComponents (components: any[]) {
+	/**
+	 * Подписывает компоненты на изменения состояния
+	 * @param {any[]} components - компоненты
+	 * @returns {void}
+	 */
+	subscribeComponents (components: any[]): void {
 		this.prevState = this.store.getState();
 
 		this.sub = this.store.subscribe((state: State) => {
@@ -29,10 +43,18 @@ export class StoreSubscriber {
 			});
 
 			this.prevState = this.store.getState();
+
+			if (isProdMode()) {
+				window.redux = this.prevState;
+			}
 		});
 	}
 
-	unsubscribeFromStore () {
+	/**
+	 * Отписывается от хранилища
+	 * @returns {void}
+	 */
+	unsubscribeFromStore (): void {
 		if (this.sub) {
 			this.sub.unsubscribe();
 		}

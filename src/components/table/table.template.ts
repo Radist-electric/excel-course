@@ -3,13 +3,43 @@ import {CODES, COL_DEFAULT_WIDTH, DEFAULT_STYLES, ROW_DEFAULT_HEIGHT} from 'data
 import {ColState, RowState, State} from 'redux/types';
 import {parse, toInlineStyles} from 'utils/common';
 
+/**
+ * Возвращает высоту строки
+ * @param {RowState} rowState - состояние строки
+ * @param {number} index - индекс строки
+ * @returns {string} высота строки
+ */
 const getHeight = (rowState: RowState, index: number): string => (rowState[index] || ROW_DEFAULT_HEIGHT) + 'px';
+
+/**
+ * Возвращает ширину столбца
+ * @param {ColState} colState - состояние столбца
+ * @param {number} index - индекс столбца
+ * @returns {string} ширина столбца
+ */
 const getWidth = (colState: ColState, index: number): string => (colState[index] || COL_DEFAULT_WIDTH) + 'px';
 
-const mapWidthToColumnParams = (state: State) => (col: string, index: number) => ({col, index, width: getWidth(state.colState, index)});
+/**
+ * Создаёт параметры ширины столбца
+ * @param {State} state - состояние приложения
+ * @returns {Function} функция для создания параметров ширины столбца
+ */
+const mapWidthToColumnParams = (state: State): ((col: string, index: number) => CreateColumnParams) => (col: string, index: number) =>
+	({col, index, width: getWidth(state.colState, index)});
 
+/**
+ * Преобразует число в букву
+ * @param {string} _ - пустая строка
+ * @param {number} index - индекс буквы
+ * @returns {string} буква
+ */
 const toChar = (_: string, index: number): string => String.fromCharCode(CODES.A + index);
 
+/**
+ * Создаёт столбец
+ * @param {CreateColumnParams} params - параметры столбца
+ * @returns {string} вёрстка столбца
+ */
 const createColumn = ({col, index, width}: CreateColumnParams) => `
 	<div
 		class="column"
@@ -22,7 +52,13 @@ const createColumn = ({col, index, width}: CreateColumnParams) => `
 	</div>
 `;
 
-const createCell = (state: State, row: number) => (_: string, col: number) => {
+/**
+ * Создаёт ячейку
+ * @param {State} state - состояние приложения
+ * @param {number} row - индекс строки
+ * @returns {Function} функция для создания ячейки
+ */
+const createCell = (state: State, row: number): ((_: string, col: number) => string) => (_: string, col: number) => {
 	const width = getWidth(state.colState, col);
 	const id = `${row}:${col}`;
 	const data = (state.dataState && state.dataState[id]) || '';
@@ -45,7 +81,14 @@ const createCell = (state: State, row: number) => (_: string, col: number) => {
 	`;
 };
 
-const createRow = (index: number, content: string, rowState: RowState) => {
+/**
+ * Создаёт строку
+ * @param {number} index - индекс строки
+ * @param {string} content - содержимое строки
+ * @param {RowState} rowState - состояние строки
+ * @returns {string} вёрстка строки
+ */
+const createRow = (index: number, content: string, rowState: RowState): string => {
 	const height = getHeight(rowState, index);
 	const resize = index ? '<div class="row-resize" data-resize="row"></div>' : '';
 

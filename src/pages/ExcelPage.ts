@@ -1,35 +1,41 @@
 import {Excel} from 'components/excel/Excel';
 import {Dom} from 'core/Dom';
-import {Page} from 'core/Page';
+import {LocalStorageClient} from 'core/LocalStorageClient';
+import {Page} from 'core/page/Page';
+import {StateProcessor} from 'core/page/StateProcessor';
 import {CreateStore as Store} from 'core/store/createStore';
 import {COMPONENTS} from 'data/constants';
 import {normalizeInitialState} from 'redux/init';
 import {rootReducer} from 'redux/rootReducer';
-import {debounce, getStorageName, storage} from 'utils/common';
 
 export class ExcelPage extends Page {
 	excel!: Excel;
+	processor!: StateProcessor;
+	storeSub!: {unsubscribe: () => void};
+
+	constructor (param: any) {
+		super(param);
+
+		this.processor = new StateProcessor(
+			new LocalStorageClient(this.params)
+		);
+	}
 
 	/**
 	 * Возвращает корневой элемент страницы
 	 * @returns {Dom} корневой элемент страницы
 	 */
-	getRoot (): Dom {
-		const params = this.params ? this.params : Date.now().toString();
-		const state = storage(getStorageName(params));
+	async getRoot (): Promise<Dom> {
+		const state = await this.processor.get();
 		const initialState = normalizeInitialState(state);
 		const store = new Store(rootReducer, initialState);
 
-		const stateListener = debounce(state => {
-			storage(getStorageName(params), state);
-		}, 300);
-
-		store.subscribe(stateListener);
+		this.storeSub = store.subscribe(this.processor.debouncedListen);
 
 		this.excel = new Excel({
 			options: {
 				components: COMPONENTS,
-				params,
+				params: this.params,
 				store
 			},
 			selector: '#app'
@@ -52,5 +58,6 @@ export class ExcelPage extends Page {
 	 */
 	destroy (): void {
 		this.excel.destroy();
+		this.storeSub.unsubscribe();
 	}
 }

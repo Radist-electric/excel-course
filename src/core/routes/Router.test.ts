@@ -13,16 +13,17 @@ describe('Класс Router', () => {
 		window.location.hash = '';
 
 		mockDom = {
-			append: jest.fn(),
-			clear: jest.fn()
+			append: jest.fn().mockReturnThis(),
+			clear: jest.fn().mockReturnThis()
 		} as unknown as Dom;
 
 		jest.spyOn(require('core/Dom'), '$').mockReturnValue(mockDom);
+		jest.spyOn(require('components/loader/Loader'), 'getLoader').mockReturnValue(mockDom);
 
 		mockPage = {
 			afterRender: jest.fn(),
 			destroy: jest.fn(),
-			getRoot: jest.fn().mockReturnValue(mockDom),
+			getRoot: jest.fn().mockResolvedValue(mockDom),
 			render: jest.fn()
 		} as unknown as PageType;
 
@@ -99,62 +100,62 @@ describe('Класс Router', () => {
 			router = new Router(mockSelector, mockRoutes);
 		});
 
-		it('очищает placeholder', () => {
-			router.changePageHandler();
+		it('очищает placeholder', async () => {
+			await router.changePageHandler();
 
 			expect(mockDom.clear).toHaveBeenCalled();
 		});
 
-		it('создает excel страницу, если в пути есть "excel"', () => {
+		it('создает excel страницу, если в пути есть "excel"', async () => {
 			jest.clearAllMocks();
 
 			window.location.hash = '#excel/123';
 
-			router.changePageHandler();
+			await router.changePageHandler();
 
 			expect(mockRoutes.excel).toHaveBeenCalledWith('123');
 			expect(mockRoutes.dashboard).not.toHaveBeenCalled();
 		});
 
-		it('создает dashboard страницу, если в пути нет "excel"', () => {
+		it('создает dashboard страницу, если в пути нет "excel"', async () => {
 			window.location.hash = '#dashboard';
 
-			router.changePageHandler();
+			await router.changePageHandler();
 
 			expect(mockRoutes.dashboard).toHaveBeenCalledWith(undefined);
 			expect(mockRoutes.excel).not.toHaveBeenCalled();
 		});
 
-		it('демонтирует предыдущую страницу, если она существует', () => {
+		it('демонтирует предыдущую страницу, если она существует', async () => {
 			router.page = mockPage;
 
-			router.changePageHandler();
+			await router.changePageHandler();
 
 			expect(mockPage.destroy).toHaveBeenCalled();
 		});
 
-		it('не демонтирует страницу, если страница не существует', () => {
+		it('не демонтирует страницу, если страница не существует', async () => {
 			router.page = null;
 
-			router.changePageHandler();
+			await router.changePageHandler();
 
 			expect(mockPage.destroy).not.toHaveBeenCalled();
 		});
 
-		it('добавляет корневой элемент страницы в $placeholder', () => {
-			router.changePageHandler();
+		it('добавляет корневой элемент страницы в $placeholder', async () => {
+			await router.changePageHandler();
 
 			expect(mockDom.append).toHaveBeenCalledWith(mockDom);
 		});
 
-		it('вызывает afterRender для созданной страницы', () => {
-			router.changePageHandler();
+		it('вызывает afterRender для созданной страницы', async () => {
+			await router.changePageHandler();
 
 			expect(mockPage.afterRender).toHaveBeenCalled();
 		});
 
-		it('устанавливает созданную страницу в свойство page класса Router', () => {
-			router.changePageHandler();
+		it('устанавливает созданную страницу в свойство page класса Router', async () => {
+			await router.changePageHandler();
 
 			expect(router.page).toBe(mockPage);
 		});

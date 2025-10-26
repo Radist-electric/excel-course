@@ -7,14 +7,14 @@ export class Page {
 	params: any;
 
 	constructor (params?: any) {
-		this.params = params;
+		this.params = params || Date.now().toString();
 	}
 
 	/**
 	 * Возвращает корневой элемент страницы
-	 * @returns {Dom} корневой элемент страницы
+	 * @returns {Dom | Promise<Dom>} корневой элемент страницы
 	 */
-	getRoot (): Dom {
+	getRoot (): Dom | Promise<Dom> {
 		throw new Error('Method "getRoot" should be implemented');
 	}
 

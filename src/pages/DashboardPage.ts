@@ -1,6 +1,6 @@
 import {createRecordsTable} from './dashboard.functions';
 import {$, Dom} from 'core/Dom';
-import {Page} from 'core/Page';
+import {Page} from 'core/page/Page';
 
 export class DashboardPage extends Page {
 	/**

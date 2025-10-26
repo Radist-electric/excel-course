@@ -1,3 +1,4 @@
+import {getLoader} from 'components/loader/Loader';
 import {$, Dom} from 'core/Dom';
 import {ActiveRoute} from 'core/routes/ActiveRoute';
 import {PageType, RoutesType} from 'types';
@@ -7,6 +8,10 @@ export class Router {
 	 * DOM элемент placeholder
 	 */
 	$placeholder: Dom;
+	/**
+	 * Загрузчик
+	 */
+	loader: Dom;
 	/**
 	 * Маршруты
 	 */
@@ -22,6 +27,7 @@ export class Router {
 		}
 
 		this.$placeholder = $(selector);
+		this.loader = getLoader();
 		this.routes = routes;
 		this.changePageHandler = this.changePageHandler.bind(this);
 		this.init();
@@ -38,14 +44,14 @@ export class Router {
 
 	/**
 	 * Обрабатывает изменение страницы
-	 * @returns {void}
+	 * @returns {Promise<void>}
 	 */
-	changePageHandler (): void {
+	async changePageHandler (): Promise<void> {
 		if (this.page) {
 			this.page.destroy();
 		}
 
-		this.$placeholder.clear();
+		this.$placeholder.clear().append(this.loader);
 
 		const Page = ActiveRoute.path.includes('excel')
 			? this.routes.excel
@@ -54,7 +60,9 @@ export class Router {
 		this.page = new Page(ActiveRoute.param);
 
 		if (this.page) {
-			this.$placeholder.append(this.page.getRoot());
+			const root = await this.page.getRoot();
+
+			this.$placeholder.clear().append(root);
 			this.page.afterRender();
 		}
 	}
